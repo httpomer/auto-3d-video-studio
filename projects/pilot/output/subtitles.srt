@@ -1,0 +1,26 @@
+1
+00:00:00,500 --> 00:00:04,052
+This small square of silicon is
+the most valuable piece of
+
+2
+00:00:04,062 --> 00:00:05,538
+technology on Earth.
+
+3
+00:00:05,780 --> 00:00:09,180
+Lift the lid, and you find
+thousands of tiny cores,
+
+4
+00:00:09,200 --> 00:00:10,809
+all working at the same time.
+
+5
+00:00:11,683 --> 00:00:15,222
+That parallel power is exactly
+what artificial intelligence
+
+6
+00:00:15,232 --> 00:00:16,182
+needs.

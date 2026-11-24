@@ -1,0 +1,12 @@
+node_modules/
+.cache/
+*.log
+
+# per-project build products (re-creatable with `npm run produce`)
+projects/*/build/
+projects/*/audio/
+
+# rendered media is too large for git (GitHub limit 100 MB/file)
+projects/*/output/*.mp4
+*.wav
+*.mp3

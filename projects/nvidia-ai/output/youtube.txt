@@ -1,0 +1,36 @@
+TITLE
+How NVIDIA Took Over AI — and Why Its Grip Is Slipping
+
+ALTERNATIVE TITLES
+The $115 Billion Quarter: How NVIDIA Rewired AI
+NVIDIA Explained in 3D: Chips, CUDA and the AI Factory
+
+DESCRIPTION
+NVIDIA sold $115.8 billion of chips in a single quarter. This 3D-animated explainer shows how a graphics-card company became the engine of artificial intelligence — the GPU, the CUDA software moat, the AI factory — and the three threats it faces at the end of 2026.
+
+Figures are as of late November 2026.
+
+Chapters:
+0:00 The $115 billion quarter
+0:33 An accidental AI company
+1:55 Why a graphics chip?
+3:07 The real moat
+3:56 The AI factory
+5:06 Follow the money
+6:18 Three threats
+7:25 What it all means
+
+Sources:
+- NVIDIA Q3 fiscal 2027 results (17 Nov 2026) — https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Third-Quarter-Fiscal-2027/
+- NVIDIA Q4 and fiscal 2026 results — https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026
+- NVIDIA CEO transition, SEC Form 8-K (Nov 2026) — https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvidiaannouncesceotransiti.htm
+- NVIDIA corporate timeline — https://www.nvidia.com/en-gb/about-nvidia/corporate-timeline.md
+- Market value: CNBC (24 Apr 2026), Bloomberg (6 Oct 2026), CompaniesMarketCap (Nov 2026)
+- AI accelerator share estimates: Silicon Analysts, TrendForce (2026)
+- CUDA developer count: NVIDIA at SC26, via Jon Peddie Research
+- 2026 capital expenditure guidance: Amazon, Alphabet, Microsoft, Meta earnings releases
+
+#NVIDIA #AI #Semiconductors
+
+TAGS
+NVIDIA, AI chips, GPU, CUDA, artificial intelligence, data center, Vera Rubin, semiconductors, AI explained, tech explainer

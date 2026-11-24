@@ -1,0 +1,20 @@
+{
+  "meta": {
+    "title": "Pipeline pilot", "slug": "pilot", "theme": "tech",
+    "description": "Short end-to-end pipeline test.",
+    "tags": ["test"],
+    "thumbnail": { "scene": "chip", "params": { "label": "GPU", "explode": true }, "camera": { "from": "hero", "to": "hero" }, "text": "The chip behind AI", "highlight": "AI", "kicker": "Explained" }
+  },
+  "chapters": [
+    { "title": "Hook", "shots": [
+      { "narration": "This small square of silicon is the most valuable piece of technology on Earth.", "scene": "chip", "params": { "label": "GPU", "cores": 14 }, "camera": { "from": "wide", "to": "hero", "orbit": 20 },
+        "overlays": [ { "type": "title", "kicker": "Pilot", "text": "The chip behind AI", "at": 0.4, "hold": 3.5 } ] },
+      { "narration": "Lift the lid, and you find thousands of tiny cores, all working at the same time.", "scene": "chip", "continues": true, "params": { "label": "GPU", "cores": 14, "explode": true }, "camera": { "from": "hero", "to": "die" },
+        "overlays": [ { "type": "callout", "anchor": "die", "text": "Thousands of cores", "sub": "working in parallel", "at": "@thousands" } ] }
+    ] },
+    { "title": "Why it matters", "shots": [
+      { "narration": "That parallel power is exactly what artificial intelligence needs.", "scene": "chip", "params": { "label": "AI", "cores": 18, "explode": true }, "transition": "zoom", "camera": { "from": "top", "to": "close" },
+        "overlays": [ { "type": "stat", "value": 16000, "suffix": "+", "label": "Parallel cores", "sub": "in a single processor", "pos": "left", "at": "@parallel" } ] }
+    ] }
+  ]
+}

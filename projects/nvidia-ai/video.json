@@ -1,0 +1,1908 @@
+{
+ "meta": {
+  "title": "How NVIDIA Took Over AI — and Why Its Grip Is Slipping",
+  "slug": "nvidia-ai",
+  "theme": "silicon",
+  "description": "NVIDIA sold $115.8 billion of chips in a single quarter. This 3D-animated explainer shows how a graphics-card company became the engine of artificial intelligence — the GPU, the CUDA software moat, the AI factory — and the three threats it faces at the end of 2026.\n\nFigures are as of late November 2026.",
+  "altTitles": [
+   "The $115 Billion Quarter: How NVIDIA Rewired AI",
+   "NVIDIA Explained in 3D: Chips, CUDA and the AI Factory"
+  ],
+  "tags": [
+   "NVIDIA",
+   "AI chips",
+   "GPU",
+   "CUDA",
+   "artificial intelligence",
+   "data center",
+   "Vera Rubin",
+   "semiconductors",
+   "AI explained",
+   "tech explainer"
+  ],
+  "hashtags": [
+   "NVIDIA",
+   "AI",
+   "Semiconductors"
+  ],
+  "sources": [
+   "NVIDIA Q3 fiscal 2027 results (17 Nov 2026) — https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Third-Quarter-Fiscal-2027/",
+   "NVIDIA Q4 and fiscal 2026 results — https://investor.nvidia.com/news/press-release-details/2026/NVIDIA-Announces-Financial-Results-for-Fourth-Quarter-and-Fiscal-2026",
+   "NVIDIA CEO transition, SEC Form 8-K (Nov 2026) — https://www.sec.gov/Archives/edgar/data/0001045810/000104581026000082/nvidiaannouncesceotransiti.htm",
+   "NVIDIA corporate timeline — https://www.nvidia.com/en-gb/about-nvidia/corporate-timeline.md",
+   "Market value: CNBC (24 Apr 2026), Bloomberg (6 Oct 2026), CompaniesMarketCap (Nov 2026)",
+   "AI accelerator share estimates: Silicon Analysts, TrendForce (2026)",
+   "CUDA developer count: NVIDIA at SC26, via Jon Peddie Research",
+   "2026 capital expenditure guidance: Amazon, Alphabet, Microsoft, Meta earnings releases"
+  ],
+  "music": {
+   "mood": "serious"
+  },
+  "thumbnail": {
+   "scene": "chip",
+   "params": {
+    "label": "AI",
+    "explode": true,
+    "cores": 16
+   },
+   "camera": {
+    "from": "hero",
+    "to": "hero"
+   },
+   "text": "How NVIDIA took over AI",
+   "highlight": "NVIDIA",
+   "kicker": "Explained in 3D"
+  }
+ },
+ "chapters": [
+  {
+   "title": "The $115 billion quarter",
+   "energy": 0.55,
+   "shots": [
+    {
+     "narration": "In just three months this year, one company sold one hundred and fifteen billion dollars worth of computer chips.",
+     "scene": "chip",
+     "params": {
+      "label": "AI",
+      "cores": 16
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero",
+      "orbit": 22
+     },
+     "overlays": [
+      {
+       "type": "stat",
+       "value": 115.8,
+       "decimals": 1,
+       "prefix": "$",
+       "suffix": "B",
+       "label": "Revenue in one quarter",
+       "sub": "August to October 2026",
+       "pos": "left",
+       "at": "@fifteen"
+      }
+     ]
+    },
+    {
+     "narration": "That is almost double what it earned in an entire year, just three years earlier.",
+     "scene": "bar_chart",
+     "params": {
+      "prefix": "$",
+      "suffix": "B",
+      "decimals": 1,
+      "highlight": 1,
+      "data": [
+       {
+        "label": "Full year, fiscal 2024",
+        "value": 60.9
+       },
+       {
+        "label": "One quarter, late 2026",
+        "value": 115.8
+       }
+      ]
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     },
+     "overlays": [
+      {
+       "type": "source",
+       "text": "NVIDIA revenue, USD · Source: NVIDIA financial results"
+      }
+     ]
+    },
+    {
+     "narration": "Its name is NVIDIA. And almost every major artificial intelligence you have ever used was built on its hardware.",
+     "scene": "ai_core",
+     "params": {
+      "intensity": 0.85,
+      "rings": 3
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero",
+      "orbit": 18
+     },
+     "overlays": [
+      {
+       "type": "lower",
+       "text": "NVIDIA",
+       "sub": "Santa Clara, California",
+       "at": "@NVIDIA",
+       "hold": 4.5
+      }
+     ]
+    },
+    {
+     "narration": "But this is not just a story about fast chips. It is the story of how one company rewired an entire industry, and why its grip may finally be slipping.",
+     "scene": "datacenter",
+     "params": {
+      "rows": 2,
+      "racksPerRow": 18,
+      "activity": 0.85
+     },
+     "camera": {
+      "from": "aisle",
+      "to": "aisle_deep"
+     }
+    },
+    {
+     "narration": "Here is how NVIDIA changed AI.",
+     "scene": "backdrop",
+     "params": {
+      "style": "tunnel",
+      "speed": 1.1
+     },
+     "camera": {
+      "from": "inside",
+      "to": "off_axis"
+     },
+     "transition": "zoom",
+     "tail": 1.4,
+     "overlays": [
+      {
+       "type": "title",
+       "align": "center",
+       "kicker": "Explained in 3D",
+       "text": "How NVIDIA Changed AI",
+       "at": 0.2
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "An accidental AI company",
+   "energy": 0.6,
+   "shots": [
+    {
+     "narration": "The story begins in nineteen ninety-three, in a booth at a Denny's diner near San Jose.",
+     "scene": "backdrop",
+     "params": {
+      "style": "wave"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "low"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 1,
+       "title": "An Accidental AI Company",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "Three engineers, Jensen Huang, Chris Malachowsky and Curtis Priem, had a simple idea: build chips that make video games look better.",
+     "scene": "timeline",
+     "params": {
+      "events": [
+       {
+        "year": "1993",
+        "title": "NVIDIA founded"
+       },
+       {
+        "year": "1999",
+        "title": "GeForce 256",
+        "sub": "Marketed as the first GPU"
+       },
+       {
+        "year": "2006",
+        "title": "CUDA released"
+       },
+       {
+        "year": "2012",
+        "title": "AlexNet"
+       },
+       {
+        "year": "2016",
+        "title": "First AI supercomputer",
+        "sub": "Delivered to OpenAI"
+       },
+       {
+        "year": "2022",
+        "title": "ChatGPT launches"
+       }
+      ],
+      "active": 0
+     },
+     "camera": {
+      "from": "along",
+      "to": "at0"
+     },
+     "overlays": [
+      {
+       "type": "lower",
+       "text": "Three founders",
+       "sub": "Huang · Malachowsky · Priem",
+       "at": "@Jensen"
+      }
+     ]
+    },
+    {
+     "narration": "In nineteen ninety-nine, they released the GeForce two fifty-six, and marketed it as the world's first graphics processing unit. The GPU.",
+     "scene": "timeline",
+     "continues": true,
+     "params": {
+      "active": 1
+     },
+     "camera": {
+      "from": "at0",
+      "to": "at1"
+     }
+    },
+    {
+     "narration": "For years, that was the whole business. Gamers bought graphics cards, and NVIDIA kept making them faster.",
+     "scene": "gpu_card",
+     "params": {
+      "fans": 3,
+      "label": "GRAPHICS CARD"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "close",
+      "orbit": 20
+     }
+    },
+    {
+     "narration": "Then, in two thousand six, the company made a strange and expensive bet. It released a software platform called CUDA.",
+     "say": "Then, in two thousand six, the company made a strange and expensive bet. It released a software platform called Kooda.",
+     "scene": "timeline",
+     "params": {
+      "events": [
+       {
+        "year": "1993",
+        "title": "NVIDIA founded"
+       },
+       {
+        "year": "1999",
+        "title": "GeForce 256"
+       },
+       {
+        "year": "2006",
+        "title": "CUDA released",
+        "sub": "GPUs for any heavy computation"
+       },
+       {
+        "year": "2012",
+        "title": "AlexNet"
+       },
+       {
+        "year": "2016",
+        "title": "First AI supercomputer",
+        "sub": "Delivered to OpenAI"
+       },
+       {
+        "year": "2022",
+        "title": "ChatGPT launches"
+       }
+      ],
+      "active": 2,
+      "activeFrom": 1
+     },
+     "camera": {
+      "from": "at1",
+      "to": "at2"
+     }
+    },
+    {
+     "narration": "CUDA let scientists use a graphics card for something other than graphics. Any heavy calculation could now run on a GPU.",
+     "say": "Kooda let scientists use a graphics card for something other than graphics. Any heavy calculation could now run on a G P U.",
+     "scene": "gpu_card",
+     "params": {
+      "fans": 3,
+      "explode": true
+     },
+     "camera": {
+      "from": "side",
+      "to": "chip"
+     },
+     "overlays": [
+      {
+       "type": "callout",
+       "anchor": "chip",
+       "text": "The GPU chip",
+       "sub": "now a general-purpose engine",
+       "at": "@heavy"
+      }
+     ]
+    },
+    {
+     "narration": "Investors were skeptical. It was expensive, and for years, few customers were asking for it.",
+     "scene": "chip",
+     "params": {
+      "label": "CUDA",
+      "cores": 12,
+      "activity": 0.12
+     },
+     "camera": {
+      "from": "low",
+      "to": "side"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "2006 – 2011",
+       "at": 0.4
+      }
+     ]
+    },
+    {
+     "narration": "But in twenty twelve, three researchers in Toronto used two NVIDIA gaming cards to train a neural network called AlexNet.",
+     "scene": "timeline",
+     "continues": false,
+     "params": {
+      "events": [
+       {
+        "year": "1993",
+        "title": "NVIDIA founded"
+       },
+       {
+        "year": "1999",
+        "title": "GeForce 256"
+       },
+       {
+        "year": "2006",
+        "title": "CUDA released"
+       },
+       {
+        "year": "2012",
+        "title": "AlexNet",
+        "sub": "Trained on two NVIDIA GPUs"
+       },
+       {
+        "year": "2016",
+        "title": "First AI supercomputer",
+        "sub": "Delivered to OpenAI"
+       },
+       {
+        "year": "2022",
+        "title": "ChatGPT launches"
+       }
+      ],
+      "active": 3,
+      "activeFrom": 2
+     },
+     "camera": {
+      "from": "at2",
+      "to": "at3"
+     }
+    },
+    {
+     "narration": "It crushed every rival at recognizing images. And the modern AI boom began.",
+     "scene": "neural_network",
+     "params": {
+      "layers": [
+       5,
+       8,
+       8,
+       6,
+       3
+      ],
+      "labels": [
+       "Image",
+       "",
+       "",
+       "",
+       "Answer"
+      ],
+      "activity": 0.85
+     },
+     "camera": {
+      "from": "wide",
+      "to": "close"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "2012 · AlexNet",
+       "at": 0.4
+      }
+     ]
+    },
+    {
+     "narration": "Four years later, Jensen Huang personally delivered NVIDIA's first AI supercomputer to a small research lab called OpenAI.",
+     "scene": "timeline",
+     "params": {
+      "events": [
+       {
+        "year": "1993",
+        "title": "NVIDIA founded"
+       },
+       {
+        "year": "1999",
+        "title": "GeForce 256"
+       },
+       {
+        "year": "2006",
+        "title": "CUDA released"
+       },
+       {
+        "year": "2012",
+        "title": "AlexNet"
+       },
+       {
+        "year": "2016",
+        "title": "First AI supercomputer",
+        "sub": "Delivered to OpenAI"
+       },
+       {
+        "year": "2022",
+        "title": "ChatGPT launches"
+       }
+      ],
+      "active": 4,
+      "activeFrom": 3
+     },
+     "camera": {
+      "from": "at3",
+      "to": "at4"
+     }
+    },
+    {
+     "narration": "In twenty twenty-two, that lab released ChatGPT. And demand for NVIDIA's chips went vertical.",
+     "scene": "timeline",
+     "continues": true,
+     "params": {
+      "active": 5
+     },
+     "camera": {
+      "from": "at4",
+      "to": "at5"
+     }
+    }
+   ]
+  },
+  {
+   "title": "Why a graphics chip?",
+   "energy": 0.65,
+   "shots": [
+    {
+     "narration": "So why did a chip built for video games turn out to be perfect for artificial intelligence?",
+     "scene": "backdrop",
+     "params": {
+      "style": "galaxy"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 2,
+       "title": "Why a Graphics Chip?",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "A traditional processor, a CPU, has a handful of powerful cores. It works through a job one step at a time.",
+     "scene": "cores_compare",
+     "params": {
+      "leftLabel": "CPU",
+      "rightLabel": "GPU",
+      "leftCores": 8,
+      "rightGrid": 32,
+      "mode": "left"
+     },
+     "cues": {
+      "left": "@works",
+      "right": 30
+     },
+     "camera": {
+      "from": "wide",
+      "to": "left"
+     }
+    },
+    {
+     "narration": "Think of it as a brilliant chef who insists on cooking every dish alone.",
+     "scene": "cores_compare",
+     "continues": true,
+     "params": {
+      "mode": "left"
+     },
+     "camera": {
+      "from": "left_cores",
+      "to": "left"
+     }
+    },
+    {
+     "narration": "A GPU is different. It has thousands of smaller cores that all work at the same moment.",
+     "scene": "cores_compare",
+     "params": {
+      "leftLabel": "CPU",
+      "rightLabel": "GPU",
+      "leftCores": 8,
+      "rightGrid": 32,
+      "mode": "right"
+     },
+     "cues": {
+      "left": 0.1,
+      "right": "@thousands"
+     },
+     "camera": {
+      "from": "right",
+      "to": "right_cores"
+     },
+     "transition": "fade"
+    },
+    {
+     "narration": "It is a kitchen with a thousand cooks, each doing one small task, all at once.",
+     "scene": "cores_compare",
+     "continues": true,
+     "params": {
+      "mode": "right"
+     },
+     "camera": {
+      "from": "right_cores",
+      "to": "top"
+     }
+    },
+    {
+     "narration": "Give both the same job, and the GPU is finished while the CPU has barely started.",
+     "scene": "cores_compare",
+     "params": {
+      "leftLabel": "CPU",
+      "rightLabel": "GPU",
+      "leftCores": 8,
+      "rightGrid": 32,
+      "mode": "both"
+     },
+     "cues": {
+      "start": 0.3
+     },
+     "camera": {
+      "from": "wide",
+      "to": "angle"
+     },
+     "transition": "fade"
+    },
+    {
+     "narration": "And a neural network is exactly that kind of job: millions of simple calculations that can all happen in parallel.",
+     "scene": "neural_network",
+     "params": {
+      "layers": [
+       6,
+       9,
+       9,
+       9,
+       4
+      ],
+      "activity": 0.95,
+      "speed": 1.2
+     },
+     "camera": {
+      "from": "side",
+      "to": "front"
+     }
+    },
+    {
+     "narration": "Training a model means showing it data, measuring how wrong it is, and nudging billions of numbers to be slightly less wrong.",
+     "scene": "loss_landscape",
+     "params": {
+      "seed": 4,
+      "label": "How wrong the model is",
+      "progress": 0.5
+     },
+     "camera": {
+      "from": "wide",
+      "to": "follow"
+     }
+    },
+    {
+     "narration": "Repeat that trillions of times, and you get a model that can write, draw and reason.",
+     "scene": "loss_landscape",
+     "continues": true,
+     "params": {
+      "seed": 4,
+      "label": "How wrong the model is",
+      "progress": 1
+     },
+     "camera": {
+      "from": "follow",
+      "to": "valley"
+     }
+    },
+    {
+     "narration": "Using the finished model is called inference. Every question you type triggers billions more calculations, on the same kind of chips.",
+     "scene": "token_stream",
+     "params": {
+      "input": [
+       "How",
+       "do",
+       "GPUs",
+       "work",
+       "?"
+      ],
+      "output": [
+       "In",
+       "parallel",
+       "."
+      ],
+      "layers": 6
+     },
+     "cues": {
+      "emit": "@triggers"
+     },
+     "camera": {
+      "from": "input",
+      "to": "wide"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "Inference",
+       "at": "@inference"
+      }
+     ]
+    },
+    {
+     "narration": "On ordinary processors, training a frontier model would be impractically slow. On thousands of GPUs working together, it takes weeks.",
+     "scene": "chip",
+     "params": {
+      "label": "GPU",
+      "cores": 18,
+      "explode": true
+     },
+     "camera": {
+      "from": "top",
+      "to": "die"
+     },
+     "overlays": [
+      {
+       "type": "callout",
+       "anchor": "die",
+       "text": "Thousands of parallel cores",
+       "at": "@thousands"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The real moat",
+   "energy": 0.7,
+   "shots": [
+    {
+     "narration": "But speed alone does not explain NVIDIA's dominance. Rivals can build fast chips too.",
+     "scene": "backdrop",
+     "params": {
+      "style": "pillars"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 3,
+       "title": "The Real Moat",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "The real advantage is everything wrapped around the chip.",
+     "scene": "stack_layers",
+     "params": {
+      "layers": [
+       {
+        "label": "Chips",
+        "sub": "GPUs and accelerators"
+       },
+       {
+        "label": "Systems",
+        "sub": "Servers and networking"
+       },
+       {
+        "label": "CUDA",
+        "sub": "The software platform"
+       },
+       {
+        "label": "AI libraries",
+        "sub": "Tools for every industry"
+       },
+       {
+        "label": "Developers",
+        "sub": "11 million and counting"
+       }
+      ],
+      "active": -1
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     }
+    },
+    {
+     "narration": "At the bottom is the hardware. Above it, complete server systems and networking. And above that, CUDA.",
+     "say": "At the bottom is the hardware. Above it, complete server systems and networking. And above that, Kooda.",
+     "scene": "stack_layers",
+     "continues": true,
+     "params": {
+      "active": 2
+     },
+     "camera": {
+      "from": "low",
+      "to": "layer2"
+     }
+    },
+    {
+     "narration": "After twenty years, more than eleven million developers build on it, according to the company.",
+     "scene": "stack_layers",
+     "continues": true,
+     "params": {
+      "active": 4
+     },
+     "camera": {
+      "from": "layer2",
+      "to": "layer4"
+     },
+     "transition": "fade",
+     "overlays": [
+      {
+       "type": "stat",
+       "value": 11,
+       "suffix": "M+",
+       "label": "CUDA developers",
+       "sub": "NVIDIA figure, 2026",
+       "pos": "left",
+       "at": "@eleven"
+      }
+     ]
+    },
+    {
+     "narration": "Universities teach it. Research papers are written with it. Entire startups are built on top of it.",
+     "scene": "stack_layers",
+     "continues": true,
+     "params": {
+      "active": 4
+     },
+     "camera": {
+      "from": "layer4",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "NVIDIA also writes the libraries on top: tools for chatbots, robots, self-driving cars and drug discovery.",
+     "scene": "network_graph",
+     "params": {
+      "center": {
+       "label": "CUDA",
+       "sub": "one platform"
+      },
+      "nodes": [
+       {
+        "label": "Chatbots"
+       },
+       {
+        "label": "Robotics"
+       },
+       {
+        "label": "Self-driving"
+       },
+       {
+        "label": "Drug discovery"
+       },
+       {
+        "label": "Weather"
+       },
+       {
+        "label": "Graphics"
+       }
+      ],
+      "direction": "out"
+     },
+     "cues": {
+      "node0": "@chatbots",
+      "node1": "@robots",
+      "node2": "@self-driving",
+      "node3": "@drug",
+      "node4": 0.6,
+      "node5": 0.9
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero"
+     }
+    },
+    {
+     "narration": "So switching away from NVIDIA does not just mean buying a different chip. It means rewriting years of software.",
+     "scene": "stack_layers",
+     "params": {
+      "layers": [
+       {
+        "label": "Chips",
+        "sub": "GPUs and accelerators"
+       },
+       {
+        "label": "Systems",
+        "sub": "Servers and networking"
+       },
+       {
+        "label": "CUDA",
+        "sub": "The software platform"
+       },
+       {
+        "label": "AI libraries",
+        "sub": "Tools for every industry"
+       },
+       {
+        "label": "Developers",
+        "sub": "11 million and counting"
+       }
+      ],
+      "active": 2,
+      "activeFrom": 0
+     },
+     "cues": {
+      "layer0": 0,
+      "layer1": 0,
+      "layer2": 0,
+      "layer3": 0,
+      "layer4": 0
+     },
+     "camera": {
+      "from": "top",
+      "to": "front"
+     }
+    },
+    {
+     "narration": "That is why analysts estimate NVIDIA still collects around three quarters of all spending on AI chips.",
+     "scene": "donut",
+     "params": {
+      "centerLabel": "≈75%",
+      "centerSub": "of AI chip revenue",
+      "highlight": 0,
+      "data": [
+       {
+        "label": "NVIDIA",
+        "value": 75
+       },
+       {
+        "label": "Custom chips",
+        "value": 15
+       },
+       {
+        "label": "AMD",
+        "value": 7
+       },
+       {
+        "label": "Others",
+        "value": 3
+       }
+      ]
+     },
+     "camera": {
+      "from": "top",
+      "to": "top",
+      "orbit": 14
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "2026 estimates",
+       "at": 0.4
+      },
+      {
+       "type": "source",
+       "text": "Approximate shares · Silicon Analysts, TrendForce"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "title": "The AI factory",
+   "energy": 0.75,
+   "shots": [
+    {
+     "narration": "And NVIDIA no longer sells just chips. It sells entire AI factories.",
+     "scene": "backdrop",
+     "params": {
+      "style": "tunnel",
+      "speed": 0.7
+     },
+     "camera": {
+      "from": "tilt",
+      "to": "inside"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 4,
+       "title": "The AI Factory",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "Its newest system, called Vera Rubin, is not a card you slot into a computer. It is a complete rack of seventy-two GPUs, cooled entirely by liquid.",
+     "scene": "datacenter",
+     "params": {
+      "rows": 2,
+      "racksPerRow": 14,
+      "activity": 0.8,
+      "accentRack": 18,
+      "label": "VERA RUBIN RACK"
+     },
+     "cues": {
+      "highlight": "@rack"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "rack_close"
+     }
+    },
+    {
+     "narration": "One rack delivers roughly three times the AI computing power of the generation before it.",
+     "scene": "datacenter",
+     "continues": true,
+     "params": {
+      "activity": 1
+     },
+     "camera": {
+      "from": "rack_close",
+      "to": "low"
+     },
+     "overlays": [
+      {
+       "type": "stat",
+       "value": "≈3×",
+       "label": "Rack-level AI compute",
+       "sub": "versus the previous generation",
+       "pos": "left",
+       "at": "@three"
+      }
+     ]
+    },
+    {
+     "narration": "And a single rack can draw around two hundred kilowatts of electricity, as much as well over a hundred homes.",
+     "scene": "datacenter",
+     "continues": true,
+     "params": {
+      "activity": 1
+     },
+     "camera": {
+      "from": "aisle",
+      "to": "aisle_deep"
+     },
+     "overlays": [
+      {
+       "type": "stat",
+       "value": 200,
+       "prefix": "≈",
+       "suffix": " kW",
+       "label": "Power per rack",
+       "sub": "Estimates range from 156 to 227 kW",
+       "pos": "left",
+       "at": "@two"
+      }
+     ]
+    },
+    {
+     "narration": "Fill a building with thousands of these racks and you get what the company calls an AI factory. Electricity and data go in. Intelligence comes out.",
+     "scene": "data_flow",
+     "params": {
+      "stages": [
+       {
+        "label": "Electricity",
+        "icon": "gear"
+       },
+       {
+        "label": "Data",
+        "icon": "cylinder"
+       },
+       {
+        "label": "AI factory",
+        "sub": "Thousands of racks",
+        "icon": "stack"
+       },
+       {
+        "label": "Models",
+        "icon": "sphere"
+       },
+       {
+        "label": "Intelligence",
+        "sub": "Answers, images, code",
+        "icon": "screen"
+       }
+      ],
+      "active": 2
+     },
+     "camera": {
+      "from": "travel_start",
+      "to": "travel_end"
+     }
+    },
+    {
+     "narration": "Every answer an AI gives is made of tokens, small pieces of words. An AI factory produces them by the trillion.",
+     "scene": "token_stream",
+     "params": {
+      "input": [
+       "Electricity",
+       "and",
+       "data",
+       "go",
+       "in"
+      ],
+      "output": [
+       "intelligence",
+       "comes",
+       "out",
+       "."
+      ],
+      "layers": 8,
+      "speed": 1.25
+     },
+     "camera": {
+      "from": "through",
+      "to": "output"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "Tokens",
+       "at": "@tokens"
+      }
+     ]
+    },
+    {
+     "narration": "The chips are designed in California, but most are manufactured in Taiwan, using machines and materials from all over the world.",
+     "scene": "globe",
+     "params": {
+      "points": [
+       {
+        "name": "Netherlands",
+        "lat": 51.4,
+        "lon": 5.5,
+        "color": "accent2"
+       },
+       {
+        "name": "Taiwan",
+        "lat": 24.8,
+        "lon": 121,
+        "color": "warm"
+       },
+       {
+        "name": "Japan",
+        "lat": 35.7,
+        "lon": 139.7,
+        "color": "accent2",
+        "dy": -30
+       },
+       {
+        "name": "South Korea",
+        "lat": 37.5,
+        "lon": 127,
+        "color": "accent2",
+        "dx": -70,
+        "dy": -8
+       },
+       {
+        "name": "California",
+        "lat": 37.4,
+        "lon": -122,
+        "color": "accent"
+       }
+      ],
+      "arcs": [
+       [
+        "Netherlands",
+        "Taiwan"
+       ],
+       [
+        "Japan",
+        "Taiwan"
+       ],
+       [
+        "South Korea",
+        "Taiwan"
+       ],
+       [
+        "Taiwan",
+        "California"
+       ]
+      ],
+      "focus": {
+       "lat": 30,
+       "lon": 150
+      }
+     },
+     "cues": {
+      "arcs": "@manufactured"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     }
+    },
+    {
+     "narration": "Every one begins as a wafer of silicon, printed with features just a few billionths of a meter wide.",
+     "scene": "wafer",
+     "params": {
+      "dies": 18,
+      "scan": true,
+      "highlightDie": true
+     },
+     "cues": {
+      "highlight": "@printed"
+     },
+     "camera": {
+      "from": "hero",
+      "to": "close"
+     }
+    },
+    {
+     "narration": "And NVIDIA now launches a new generation roughly every year, faster than most rivals can respond.",
+     "scene": "timeline",
+     "params": {
+      "events": [
+       {
+        "year": "2022",
+        "title": "Hopper"
+       },
+       {
+        "year": "2024",
+        "title": "Blackwell"
+       },
+       {
+        "year": "2026",
+        "title": "Vera Rubin"
+       }
+      ],
+      "active": 2,
+      "activeFrom": 0
+     },
+     "camera": {
+      "from": "along",
+      "to": "wide"
+     }
+    }
+   ]
+  },
+  {
+   "title": "Follow the money",
+   "energy": 0.8,
+   "shots": [
+    {
+     "narration": "The result is one of the fastest growth stories in business history.",
+     "scene": "city",
+     "params": {
+      "seed": 3,
+      "growthFrom": 0,
+      "growth": 1
+     },
+     "camera": {
+      "from": "skyline",
+      "to": "wide"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 5,
+       "title": "Follow the Money",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "In fiscal twenty twenty-three, NVIDIA's revenue was twenty-seven billion dollars. A year later, sixty-one billion.",
+     "scene": "bar_chart",
+     "params": {
+      "title": "NVIDIA annual revenue",
+      "subtitle": "USD billions, fiscal years",
+      "prefix": "$",
+      "suffix": "B",
+      "decimals": 1,
+      "data": [
+       {
+        "label": "FY2023",
+        "value": 27.0
+       },
+       {
+        "label": "FY2024",
+        "value": 60.9
+       },
+       {
+        "label": "FY2025",
+        "value": 130.5
+       },
+       {
+        "label": "FY2026",
+        "value": 215.9
+       }
+      ]
+     },
+     "cues": {
+      "grow": "@twenty-seven"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "left"
+     }
+    },
+    {
+     "narration": "Then one hundred and thirty billion. Then two hundred and sixteen billion.",
+     "scene": "bar_chart",
+     "continues": true,
+     "params": {
+      "highlight": 3
+     },
+     "camera": {
+      "from": "right",
+      "to": "last"
+     },
+     "overlays": [
+      {
+       "type": "source",
+       "text": "Source: NVIDIA annual results"
+      }
+     ]
+    },
+    {
+     "narration": "And in its latest quarter alone, revenue reached one hundred and fifteen point eight billion dollars, with ninety-three percent coming from data centers.",
+     "scene": "donut",
+     "params": {
+      "centerLabel": "93%",
+      "centerSub": "from data centers",
+      "highlight": 0,
+      "showValue": true,
+      "prefix": "$",
+      "suffix": "B",
+      "valueDecimals": 1,
+      "data": [
+       {
+        "label": "Data center",
+        "value": 107.6
+       },
+       {
+        "label": "Everything else",
+        "value": 8.2
+       }
+      ]
+     },
+     "cues": {
+      "highlight": "@ninety-three"
+     },
+     "camera": {
+      "from": "top",
+      "to": "top",
+      "orbit": -12
+     },
+     "overlays": [
+      {
+       "type": "source",
+       "text": "Source: NVIDIA Q3 fiscal 2027 results"
+      }
+     ]
+    },
+    {
+     "narration": "And the company expects to sell even more next quarter: about one hundred and thirty billion dollars.",
+     "scene": "bar_chart",
+     "params": {
+      "title": "NVIDIA quarterly revenue",
+      "subtitle": "USD billions",
+      "prefix": "$",
+      "suffix": "B",
+      "decimals": 1,
+      "highlight": 3,
+      "data": [
+       {
+        "label": "Q3 FY2026",
+        "value": 57.0
+       },
+       {
+        "label": "Q4 FY2026",
+        "value": 68.1
+       },
+       {
+        "label": "Q3 FY2027",
+        "value": 115.8
+       },
+       {
+        "label": "Q4 FY2027 forecast",
+        "value": 130.0
+       }
+      ]
+     },
+     "cues": {
+      "highlight": "@thirty"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     },
+     "overlays": [
+      {
+       "type": "source",
+       "text": "Source: NVIDIA results and outlook, Nov 2026"
+      }
+     ]
+    },
+    {
+     "narration": "Its gross margin is close to seventy-five percent. For every dollar of sales, about seventy-five cents is left after the cost of making the product.",
+     "scene": "backdrop",
+     "params": {
+      "style": "galaxy",
+      "speed": 1.3
+     },
+     "camera": {
+      "from": "close",
+      "to": "low"
+     },
+     "overlays": [
+      {
+       "type": "stat",
+       "value": 74.8,
+       "decimals": 1,
+       "suffix": "%",
+       "label": "Gross margin",
+       "sub": "Third quarter, fiscal 2027",
+       "pos": "center",
+       "at": "@seventy-five"
+      }
+     ]
+    },
+    {
+     "narration": "Who is paying for all this? Mostly, a handful of giants.",
+     "scene": "network_graph",
+     "params": {
+      "center": {
+       "label": "NVIDIA"
+      },
+      "nodes": [
+       {
+        "label": "Microsoft",
+        "value": 5
+       },
+       {
+        "label": "Amazon",
+        "value": 5
+       },
+       {
+        "label": "Alphabet",
+        "value": 5
+       },
+       {
+        "label": "Meta",
+        "value": 4
+       },
+       {
+        "label": "Oracle",
+        "value": 3
+       },
+       {
+        "label": "CoreWeave",
+        "value": 2
+       }
+      ],
+      "direction": "in",
+      "reveal": "all"
+     },
+     "camera": {
+      "from": "low",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "Amazon, Alphabet, Microsoft and Meta are on track to spend around seven hundred and thirty billion dollars on infrastructure this year, and a large share of it flows to NVIDIA.",
+     "scene": "bar_chart",
+     "params": {
+      "title": "Capital spending, 2026",
+      "subtitle": "USD billions, company guidance",
+      "prefix": "$",
+      "suffix": "B",
+      "decimals": 0,
+      "data": [
+       {
+        "label": "Amazon",
+        "value": 220
+       },
+       {
+        "label": "Alphabet",
+        "value": 200
+       },
+       {
+        "label": "Microsoft",
+        "value": 170
+       },
+       {
+        "label": "Meta",
+        "value": 140
+       }
+      ]
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "≈ $730B combined · up from ≈ $410B in 2025",
+       "at": "@seven"
+      },
+      {
+       "type": "source",
+       "text": "Source: company earnings guidance, late 2026"
+      }
+     ]
+    },
+    {
+     "narration": "The biggest technology companies on Earth are building as fast as they can, and NVIDIA is their main supplier.",
+     "scene": "datacenter",
+     "params": {
+      "rows": 6,
+      "racksPerRow": 22,
+      "activity": 1
+     },
+     "camera": {
+      "from": "top",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "That river of money pushed NVIDIA's market value above five trillion dollars in twenty twenty-six. In October, it came close to six trillion.",
+     "scene": "city",
+     "params": {
+      "seed": 7,
+      "growthFrom": 0.25,
+      "growth": 1,
+      "hero": {
+       "label": "NVIDIA",
+       "sub": "above $5.8 trillion · October 2026"
+      }
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero"
+     }
+    }
+   ]
+  },
+  {
+   "title": "Three threats",
+   "energy": 0.7,
+   "shots": [
+    {
+     "narration": "But no empire is safe forever. And NVIDIA now faces three serious threats.",
+     "scene": "backdrop",
+     "params": {
+      "style": "wave",
+      "speed": 1.4
+     },
+     "camera": {
+      "from": "side",
+      "to": "hero"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 6,
+       "title": "Three Threats",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "First, its own customers. Google, Amazon and others are designing custom AI chips to cut their dependence on NVIDIA.",
+     "scene": "network_graph",
+     "params": {
+      "center": {
+       "label": "NVIDIA"
+      },
+      "nodes": [
+       {
+        "label": "Google TPU",
+        "color": "#ff6b6b"
+       },
+       {
+        "label": "Amazon Trainium",
+        "color": "#ff6b6b"
+       },
+       {
+        "label": "Microsoft Maia",
+        "color": "#ff6b6b"
+       },
+       {
+        "label": "Meta MTIA",
+        "color": "#ff6b6b"
+       },
+       {
+        "label": "AMD Instinct",
+        "color": "#ffb65c"
+       },
+       {
+        "label": "Broadcom",
+        "color": "#ffb65c"
+       }
+      ],
+      "direction": "both"
+     },
+     "cues": {
+      "node0": "@Google",
+      "node1": "@Amazon",
+      "node2": "@others",
+      "node3": "@others",
+      "node4": "@custom",
+      "node5": "@custom"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "hero"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "Threat 1 · Custom chips",
+       "at": 0.3
+      }
+     ]
+    },
+    {
+     "narration": "AMD is chasing too, with its own accelerators and a growing list of customers.",
+     "scene": "network_graph",
+     "continues": true,
+     "params": {
+      "highlight": 4
+     },
+     "camera": {
+      "from": "hero",
+      "to": "left"
+     }
+    },
+    {
+     "narration": "And shipments of those custom chips are growing nearly three times as fast as GPUs.",
+     "scene": "bar_chart",
+     "params": {
+      "suffix": "%",
+      "decimals": 1,
+      "highlight": 1,
+      "data": [
+       {
+        "label": "GPUs",
+        "value": 16.1
+       },
+       {
+        "label": "Custom AI chips",
+        "value": 44.6
+       }
+      ]
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     },
+     "overlays": [
+      {
+       "type": "source",
+       "text": "Shipment growth 2026, year over year · TrendForce estimate"
+      }
+     ]
+    },
+    {
+     "narration": "Second, geopolitics. Export restrictions have all but closed the Chinese market, and NVIDIA's latest forecast assumes zero data center chip sales to China.",
+     "scene": "globe",
+     "params": {
+      "points": [
+       {
+        "name": "United States",
+        "lat": 38.9,
+        "lon": -77,
+        "color": "accent"
+       },
+       {
+        "name": "China",
+        "lat": 35,
+        "lon": 105,
+        "color": "danger"
+       },
+       {
+        "name": "Taiwan",
+        "lat": 24.8,
+        "lon": 121,
+        "color": "warm",
+        "dx": 70,
+        "dy": 20
+       }
+      ],
+      "arcs": [],
+      "focus": {
+       "lat": 32,
+       "lon": 112
+      }
+     },
+     "camera": {
+      "from": "wide",
+      "to": "close"
+     },
+     "overlays": [
+      {
+       "type": "tag",
+       "text": "Threat 2 · Geopolitics",
+       "at": 0.3
+      }
+     ]
+    },
+    {
+     "narration": "And third, leadership. In November twenty twenty-six, Jensen Huang, the founder who led the company for more than three decades, stepped down as chief executive.",
+     "scene": "ai_core",
+     "params": {
+      "intensity": 0.3,
+      "rings": 2,
+      "streams": 0.3
+     },
+     "camera": {
+      "from": "right",
+      "to": "right",
+      "orbit": 8
+     },
+     "overlays": [
+      {
+       "type": "title",
+       "kicker": "Threat 3 · Leadership",
+       "text": "The founder steps down",
+       "sub": "November 2026",
+       "at": "@Jensen"
+      }
+     ]
+    },
+    {
+     "narration": "Chief financial officer Colette Kress became interim CEO, and the shares dropped sharply on the news. By late November, NVIDIA's market value was near four trillion dollars, well below its October peak.",
+     "scene": "bubbles",
+     "params": {
+      "items": [
+       {
+        "label": "Early October 2026",
+        "value": 5.8
+       },
+       {
+        "label": "Late November 2026",
+        "value": 4.0
+       }
+      ],
+      "prefix": "$",
+      "suffix": "T",
+      "decimals": 1,
+      "highlight": 1
+     },
+     "cues": {
+      "item0": 0.3,
+      "item1": "@late"
+     },
+     "camera": {
+      "from": "wide",
+      "to": "front"
+     },
+     "overlays": [
+      {
+       "type": "lower",
+       "text": "Colette Kress",
+       "sub": "Interim CEO, NVIDIA",
+       "at": "@Colette",
+       "hold": 4.5
+      },
+      {
+       "type": "source",
+       "text": "Market value · Bloomberg, CompaniesMarketCap"
+      }
+     ]
+    },
+    {
+     "narration": "For the first time, the company has to prove it is bigger than the man who built it.",
+     "scene": "chip",
+     "params": {
+      "label": "NVIDIA",
+      "cores": 14,
+      "activity": 0.45
+     },
+     "camera": {
+      "from": "side",
+      "to": "close"
+     }
+    }
+   ]
+  },
+  {
+   "title": "What it all means",
+   "energy": 0.9,
+   "shots": [
+    {
+     "narration": "So, how is NVIDIA changing the AI industry?",
+     "scene": "backdrop",
+     "params": {
+      "style": "pillars",
+      "speed": 1.2
+     },
+     "camera": {
+      "from": "top",
+      "to": "close"
+     },
+     "transition": "dip",
+     "overlays": [
+      {
+       "type": "chapter",
+       "index": 7,
+       "title": "What It All Means",
+       "at": 0.2
+      }
+     ]
+    },
+    {
+     "narration": "It did it by betting on an idea years before almost anyone else believed in it.",
+     "scene": "timeline",
+     "params": {
+      "events": [
+       {
+        "year": "1993",
+        "title": "Founded"
+       },
+       {
+        "year": "1999",
+        "title": "First GPU"
+       },
+       {
+        "year": "2006",
+        "title": "CUDA"
+       },
+       {
+        "year": "2012",
+        "title": "AlexNet"
+       },
+       {
+        "year": "2016",
+        "title": "AI supercomputer"
+       },
+       {
+        "year": "2022",
+        "title": "ChatGPT"
+       }
+      ],
+      "revealAll": true
+     },
+     "camera": {
+      "from": "low",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "It turned the graphics card into the engine of a new kind of computing.",
+     "scene": "gpu_card",
+     "params": {
+      "fans": 3,
+      "activity": 1
+     },
+     "camera": {
+      "from": "low",
+      "to": "hero",
+      "orbit": 25
+     }
+    },
+    {
+     "narration": "It turned software into a moat that rivals still struggle to cross.",
+     "scene": "stack_layers",
+     "params": {
+      "layers": [
+       {
+        "label": "Chips"
+       },
+       {
+        "label": "Systems"
+       },
+       {
+        "label": "CUDA",
+        "sub": "The moat"
+       },
+       {
+        "label": "AI libraries"
+       },
+       {
+        "label": "Developers"
+       }
+      ],
+      "active": 2
+     },
+     "camera": {
+      "from": "front",
+      "to": "hero"
+     }
+    },
+    {
+     "narration": "And it turned the data center into a factory that manufactures intelligence.",
+     "scene": "datacenter",
+     "params": {
+      "rows": 4,
+      "racksPerRow": 20,
+      "activity": 1
+     },
+     "camera": {
+      "from": "end",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "Whether NVIDIA stays on top is now an open question. But the industry it built is not going away.",
+     "scene": "globe",
+     "params": {
+      "points": [],
+      "arcs": [],
+      "spin": 0.16
+     },
+     "camera": {
+      "from": "horizon",
+      "to": "wide"
+     }
+    },
+    {
+     "narration": "Every model you talk to, every image you generate, every AI tool you use, runs on foundations that NVIDIA laid.",
+     "scene": "ai_core",
+     "params": {
+      "intensity": 1,
+      "rings": 4
+     },
+     "camera": {
+      "from": "orbit_far",
+      "to": "close"
+     }
+    },
+    {
+     "narration": "If this helped you understand the machine behind AI, subscribe, and we will take apart the next piece of the puzzle.",
+     "scene": "backdrop",
+     "params": {
+      "style": "wave"
+     },
+     "camera": {
+      "from": "low",
+      "to": "wide"
+     },
+     "tail": 2.0,
+     "overlays": [
+      {
+       "type": "title",
+       "align": "center",
+       "kicker": "Thanks for watching",
+       "text": "Subscribe for the next deep dive",
+       "at": 0.3,
+       "size": 84
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
