@@ -159,11 +159,21 @@ Develop with `node pipeline/dev.js <name> --scale=0.5 --cam=wide:hero --times=1,
 
 ## Environment notes
 
-- Windows; the project path contains a space and an apostrophe — always pass paths as separate arguments
+This project runs on whoever's computer it is cloned to (Windows, macOS or Linux). Check the machine
+before the first production rather than assuming:
+
+- Setup is `npm install` (FFmpeg comes from the `ffmpeg-static` package). Chrome or Edge must be installed;
+  `pipeline/paths.js` finds it, or set `CHROME_PATH`. If `node_modules` is missing, run `npm install` first.
+- Quick health check: `npm run produce -- pilot` (16-second test video).
+- Paths may contain spaces or apostrophes — always pass paths as separate arguments
   (never interpolate them into shell strings or ffmpeg filter strings).
-- The C: drive is nearly full. Keep everything (npm cache, Chrome profiles, temp files) on D: inside this
-  project; `.npmrc` and `pipeline/paths.js` already do this. Do not install tools globally.
-- Rendering uses the installed Google Chrome with the NVIDIA GPU (Quadro T1000, 4 GB). `--workers=3` is the
-  tested setting; lower it if Chrome crashes.
+- Keep all temporary files inside the project (`.cache/`, `projects/<slug>/build/`); do not install
+  tools globally. If the system drive is short on space, the npm cache and Chrome profiles already
+  live under the project via `.npmrc` and `pipeline/paths.js`.
+- Rendering runs in headless Chrome on the GPU. `--workers=3` is the default; use 2 or 1 on machines
+  with little GPU memory or if Chrome crashes. The first frames print the GPU in use — if it shows a
+  software renderer (SwiftShader), rendering works but will be very slow; tell the user.
 - Narration uses Microsoft Edge neural voices over the network (`msedge-tts`); it needs internet access.
-- Blender is not installed and not required. Everything is Three.js + FFmpeg.
+- Blender is not required. Everything is Three.js + FFmpeg.
+- Rendered media (`projects/*/output/`, `projects/*/build/`, `projects/*/audio/`) is git-ignored; only
+  code, storyboards and research are committed.

@@ -10,7 +10,8 @@ export async function openEngine(port, { width, height, id = 0 } = {}) {
     userDataDir: ensureDir(path.join(CACHE, 'chrome', 'w' + id)),
     protocolTimeout: 600000,
     args: [
-      '--use-angle=d3d11', '--enable-gpu', '--ignore-gpu-blocklist', '--enable-webgl',
+      // GPU backend per OS: Direct3D 11 on Windows, Metal on macOS, the default (GL) on Linux
+      ...(process.platform === 'win32' ? ['--use-angle=d3d11'] : process.platform === 'darwin' ? ['--use-angle=metal'] : []), '--enable-gpu', '--ignore-gpu-blocklist', '--enable-webgl',
       '--disable-background-timer-throttling', '--disable-renderer-backgrounding', '--disable-backgrounding-occluded-windows',
       '--force-color-profile=srgb', '--hide-scrollbars', '--mute-audio', '--no-first-run', '--no-default-browser-check',
       '--force-high-performance-gpu', '--disable-extensions',
