@@ -20,6 +20,25 @@ Abstract AI "brain" hero: a luminous energy core inside slowly rotating gyroscop
 {"intensity":0.8,"rings":3,"label":"FOUNDATION MODEL"}
 ```
 
+## `ai_eye`
+
+A machine eye: heavy dark lens assembly with concentric steel rings and a glowing iris that stares straight at the viewer, floating in front of out-of-focus city or server lights. Strong thumbnail hero ("AI is watching") and an in-video shot for surveillance, control or "the AI notices" moments.
+
+| param | meaning |
+|---|---|
+| `color` | Iris colour: theme key ("danger" default, "accent", "accent2", "warm") or a hex colour |
+| `background` | "city" (default — distant night city lights) \| "servers" (rows of LEDs) \| "none" |
+| `gaze` | World point [x,y,z] the eye looks at (default straight ahead at the camera axis). For eye contact use the camera position. |
+| `intensity` | 0..1 iris brightness (default 0.85, tweens) |
+| `open` | 0..1 aperture opening of the iris (default 1; tween from 0 to "wake up" the eye) |
+
+**Framings:** `close`, `hero`, `wide`, `side`, `low`, `right_third`, `left_third`
+
+**Sample params:**
+```json
+{"color":"danger","background":"city"}
+```
+
 ## `backdrop`
 
 Abstract 3D environment for titles, chapter cards, quotes and big numbers (pair it with title / chapter / stat / quote overlays). Styles: "wave" (flowing field of light points), "galaxy" (slow swirling particle disc with a glowing core), "pillars" (a city of rising light columns), "tunnel" (flying through rings of light — good for hooks and transitions).
@@ -321,6 +340,29 @@ AI training as gradient descent: a smooth 3D "loss surface" of hills and valleys
 {"seed":4,"label":"Training loss"}
 ```
 
+## `money_flow`
+
+Where the money comes from and where it goes: source nodes on the left, a central entity, destination nodes on the right. Sankey-style glowing ribbons (width exactly proportional to value) carry streams of gold coins; values count up as the money flows. Works with sources only (targets empty).
+
+| param | meaning |
+|---|---|
+| `sources` | [{label, value, color?}] 1–8 inflows on the left (e.g. customers, revenue segments) |
+| `center` | { label, sub? } the entity in the middle (e.g. the company) |
+| `targets` | [{label, value, color?}] 0–8 outflows on the right (e.g. costs, R&D, buybacks, profit). Leave empty for a sources→centre scene. |
+| `prefix` | Value prefix, e.g. "$" |
+| `suffix` | Value suffix, e.g. "B" |
+| `decimals` | Decimals (default 0) |
+| `compact` | K/M/B/T formatting |
+| `showTotal` | false to hide the running total at the centre |
+| `cues` | { flow: seconds when money starts flowing from the sources (default 0.6), out: seconds when it starts leaving the centre (default: when the first coins arrive) } — shot-local |
+
+**Framings:** `wide`, `left`, `center`, `right`, `top`, `low`
+
+**Sample params:**
+```json
+{"prefix":"$","suffix":"B","decimals":1,"sources":[{"label":"Data center","value":115.2},{"label":"Gaming","value":11.4},{"label":"Other","value":3.9}],"center":{"label":"NVIDIA","sub":"FY2025 revenue"},"targets":[{"label":"Cost of revenue","value":32.6},{"label":"R&D","value":12.9},{"label":"Taxes & other","value":12.1},{"label":"Net income","value":72.9}]}
+```
+
 ## `network_graph`
 
 Hub-and-spoke ecosystem graph in 3D: a glowing central node (company, product, model) surrounded by satellite nodes (customers, partners, suppliers, competitors) on a tilted orbit, linked by beams carrying travelling pulses. Node size can encode a value. Great for "who buys / who depends on / who competes with".
@@ -360,6 +402,47 @@ A 3D neural network: layers of glass-orb neurons joined by glowing filaments. Ac
 **Sample params:**
 ```json
 {"layers":[4,7,7,5,2],"labels":["Input","Hidden","Hidden","Hidden","Output"],"activity":0.8,"mode":"inference"}
+```
+
+## `props`
+
+Symbolic hero props that read instantly: "chess" — a giant glowing AI king towering over a toppled human king (AI vs humans, checkmate); "countdown" — a wall-mounted red LED countdown such as 365 DAYS (deadlines, "next year"); "stop" — a big emergency STOP button with hazard stripes (can we stop it, slowing down, regulation). Great thumbnail heroes and punchy in-video metaphors.
+
+| param | meaning |
+|---|---|
+| `prop` | "chess" \| "countdown" \| "stop" |
+| `color` | Glow colour: theme key or hex (default red) |
+| `number` | countdown: the number shown (default 365) |
+| `unit` | countdown: small word under the number (default "DAYS") |
+| `caption` | countdown: small label on the panel (default "AI 2027") |
+| `label` | stop: text around the button (default "EMERGENCY STOP") |
+| `press` | stop: 0..1 how far the button is pressed (tweens) |
+| `topple` | chess: 0..1 how far the human king has fallen (default 1, tween from 0 to show the fall) |
+
+**Framings:** `hero`, `low`, `wide`, `top`, `close`
+
+**Sample params:**
+```json
+{"prop":"chess"}
+```
+
+## `robot`
+
+Humanoid robot bust: white shell head, black glass face plate with glowing eyes, mechanical neck (pistons, cables) and shoulders, in front of out-of-focus city or server lights. The head turns to look at a gaze point — use the camera position for eye contact. Strong thumbnail hero for AI topics and an in-video shot for robots, automation and "AI is here" moments.
+
+| param | meaning |
+|---|---|
+| `eyes` | Eye colour: theme key ("danger" default = red, "accent", "accent2", "warm") or a hex colour |
+| `background` | "city" (default) \| "servers" \| "none" |
+| `gaze` | World point [x,y,z] the head looks at (default straight ahead). Camera position = eye contact. |
+| `intensity` | 0..1 eye glow (default 1, tweens) |
+| `awake` | 0..1 eyes power on (default 1; tween from 0 for a "switching on" moment) |
+
+**Framings:** `bust`, `close`, `low`, `side`, `wide`, `right_third`, `left_third`
+
+**Sample params:**
+```json
+{"eyes":"danger","background":"city"}
 ```
 
 ## `stack_layers`

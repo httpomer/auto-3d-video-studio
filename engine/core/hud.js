@@ -173,7 +173,7 @@ export class Hud {
   o_lower(o, { t, alpha }) {
     const g = this.g, th = this.theme, H = this.h / this.s;
     const k = ease.outQuart(clamp(t / 0.7));
-    const x = 110, y = H - (o.sub ? 300 : 270);
+    const x = 110, y = H - (o.sub ? 360 : 330); // clear of two-line captions (top of caption box ≈ H - 216)
     g.font = this.font(600, 46);
     const tw = g.measureText(o.text).width;
     g.font = this.font(400, 28, 'body');
@@ -339,50 +339,133 @@ export class Hud {
     g.fillText(o.text, REF_W - 60, 62);
   }
 
-  /** YouTube thumbnail typography: huge, few words, one highlighted. */
-  o_thumb(o) {
-    const g = this.g, th = this.theme, H = this.h / this.s;
+  /**
+   * Channel thumbnail template ("impact" style, modelled on high-CTR explainer channels):
+   *   one huge subject on one side · 2–4 giant words on the other, white with a thick black outline and a
+   *   hard shadow, the hook word in the video's hot colour · optional hand-drawn arrow / circle pointing at
+   *   the subject · optional fact chip. Fonts, outline, shadow and layout stay fixed; colour and subject change.
+   */
+  o_thumb(o, { camera, anchors } = {}) {
+    const g = this.g, H = this.h / this.s;
+    const HOT = o.hot || '#FF2D2D', INK = '#000000';
     const right = o.side === 'right';
-    const gr = g.createLinearGradient(right ? REF_W : 0, 0, right ? REF_W * 0.3 : REF_W * 0.7, 0);
-    gr.addColorStop(0, 'rgba(2,4,8,0.92)'); gr.addColorStop(0.6, 'rgba(2,4,8,0.55)'); gr.addColorStop(1, 'rgba(2,4,8,0)');
+    const X = right ? REF_W - 80 : 80;
+    const font = (w, px) => `${w} ${px}px "Inter", sans-serif`;
+    const toScreen = (spec) => {
+      if (!spec) return null;
+      if (Array.isArray(spec)) return { x: spec[0] * REF_W, y: spec[1] * H };
+      if (spec.point) return { x: spec.point[0] * REF_W, y: spec.point[1] * H };
+      const w = spec.world ? new THREE.Vector3(...spec.world) : anchors?.[spec.anchor];
+      if (!w || !camera) return null;
+      const p = this.project(w, camera);
+      return p.vis ? p : null;
+    };
+    // soft scrim behind the text only, so the subject keeps its full contrast
+    const gr = g.createLinearGradient(right ? REF_W : 0, 0, right ? REF_W * 0.45 : REF_W * 0.55, 0);
+    gr.addColorStop(0, 'rgba(0,0,0,0.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
     g.fillStyle = gr; g.fillRect(0, 0, REF_W, H);
-    const text = String(o.text).toUpperCase();
-    let size = o.size ?? 210;
-    const maxW = REF_W * 0.6;
-    let lines;
+
+    // headline — " / " forces a line break
+    const segments = String(o.text).toUpperCase().split(/\s*(?:\n|\s\/\s)\s*/).map((t) => t.split(/\s+/).filter(Boolean)).filter((x) => x.length);
+    const hl = new Set(String(o.highlight || '').toUpperCase().split(/\s+/).filter(Boolean));
+    const maxW = REF_W * (o.width ?? 0.52);
+    let size = o.size ?? 250, lines;
+    const setFont = () => { g.font = font(900, size); g.letterSpacing = `${-size * 0.03}px`; };
+    const measure = (w) => { setFont(); return g.measureText(w).width; };
+    // keep each " / " segment on one line: shrink the type first, wrap inside a segment only as a last resort
+    const MIN = o.minSize ?? 150;
     for (;;) {
-      g.font = this.font(700, size);
-      lines = this.wrap(text, maxW);
-      const widest = Math.max(...lines.map((l) => g.measureText(l).width));
-      if ((lines.length <= 3 && widest <= maxW) || size < 90) break;
-      size -= 10;
+      const widest = Math.max(...segments.map((seg) => measure(seg.join(' '))));
+      if (widest <= maxW || size <= MIN) break;
+      size -= 6;
     }
-    const lh = size * 1.02;
-    let y = H / 2 - (lines.length * lh) / 2 + size * 0.82 + (o.kicker ? 40 : 0);
-    const x = right ? REF_W - 90 : 90;
-    g.textAlign = right ? 'right' : 'left'; g.textBaseline = 'alphabetic';
-    if (o.kicker) {
-      g.font = this.font(700, 46); g.letterSpacing = '6px';
-      const kw = g.measureText(String(o.kicker).toUpperCase()).width + 60;
-      g.fillStyle = th.accent; this.rr(right ? x - kw : x, y - size * 0.82 - 96, kw, 76, 10); g.fill();
-      g.fillStyle = '#05080c'; g.textBaseline = 'middle';
-      g.fillText(String(o.kicker).toUpperCase(), right ? x - 27 : x + 30, y - size * 0.82 - 56);
-      g.letterSpacing = '0px'; g.textBaseline = 'alphabetic';
-    }
-    g.font = this.font(700, size);
-    g.shadowColor = 'rgba(0,0,0,0.9)'; g.shadowBlur = 40; g.shadowOffsetY = 8;
-    const hl = (o.highlight ? String(o.highlight).toUpperCase().split(/\s+/) : []);
-    const sp = g.measureText(' ').width;
-    for (const line of lines) {
-      const ws = line.split(' ');
-      let cx = right ? x - g.measureText(line).width : x;
-      g.textAlign = 'left';
-      for (const w of ws) {
-        g.fillStyle = hl.includes(w.replace(/[^A-Z0-9$%.]/g, '')) || hl.includes(w) ? th.accent : '#ffffff';
-        g.fillText(w, cx, y);
-        cx += g.measureText(w).width + sp;
+    lines = [];
+    for (const seg of segments) {
+      let cur = [];
+      for (const w of seg) {
+        const test = [...cur, w].join(' ');
+        if (cur.length && measure(test) > maxW) { lines.push(cur); cur = [w]; } else cur.push(w);
       }
+      if (cur.length) lines.push(cur);
+    }
+    const lh = size * 0.94;
+    let y = H * (o.y ?? 0.5) - (lines.length * lh + (o.sub ? size * 0.5 : 0)) / 2 + size * 0.76;
+    g.textBaseline = 'alphabetic'; g.textAlign = 'left'; g.lineJoin = 'round'; g.miterLimit = 2;
+    const box = { x0: Infinity, x1: -Infinity, y0: y - size * 0.8, y1: 0 };
+    for (const line of lines) {
+      setFont();
+      const sp = g.measureText(' ').width + size * 0.06;
+      const widths = line.map((w) => measure(w));
+      const total = widths.reduce((s1, s2) => s1 + s2, 0) + sp * (line.length - 1);
+      let cx = right ? X - total : X;
+      box.x0 = Math.min(box.x0, cx); box.x1 = Math.max(box.x1, cx + total);
+      line.forEach((w, i) => {
+        const isHot = hl.has(w) || hl.has(w.replace(/[^A-Z0-9$%.?!]/g, ''));
+        setFont();
+        g.fillStyle = 'rgba(0,0,0,0.85)'; g.fillText(w, cx + size * 0.035, y + size * 0.045); // hard shadow
+        g.strokeStyle = INK; g.lineWidth = size * 0.11; g.strokeText(w, cx, y);                 // thick outline
+        g.fillStyle = isHot ? HOT : '#FFFFFF'; g.fillText(w, cx, y);
+        cx += widths[i] + sp;
+      });
+      box.y1 = y + size * 0.1;
       y += lh;
+    }
+    // optional small context line under the headline (same outline treatment)
+    if (o.sub) {
+      const ss = Math.round(size * (o.subScale ?? 0.4));
+      g.font = font(900, ss); g.letterSpacing = `${-ss * 0.02}px`;
+      const st = String(o.sub).toUpperCase(), sw = g.measureText(st).width;
+      const sx = right ? X - sw : X, sy = y - lh + size * 0.08 + ss * 1.05;
+      g.fillStyle = 'rgba(0,0,0,0.85)'; g.fillText(st, sx + ss * 0.04, sy + ss * 0.05);
+      g.strokeStyle = INK; g.lineWidth = ss * 0.14; g.strokeText(st, sx, sy);
+      g.fillStyle = '#FFFFFF'; g.fillText(st, sx, sy);
+      box.y1 = sy + ss * 0.2;
+    }
+    g.letterSpacing = '0px';
+
+    const strokeOutlined = (draw, width, color) => {
+      g.lineCap = 'round'; g.lineJoin = 'round';
+      g.strokeStyle = '#FFFFFF'; g.lineWidth = width + 14; draw(); g.stroke();
+      g.strokeStyle = color; g.lineWidth = width; draw(); g.stroke();
+    };
+    // hand-drawn style arrow: thick, white-edged, slightly curved, from the text towards the subject
+    if (o.arrow) {
+      const A = toScreen(o.arrow.from) || { x: right ? box.x0 - 30 : box.x1 + 30, y: (box.y0 + box.y1) / 2 };
+      const B = toScreen(o.arrow.to);
+      if (B) {
+        const color = o.arrow.color || HOT, wdt = o.arrow.width ?? 26;
+        const dx = B.x - A.x, dy = B.y - A.y, len = Math.hypot(dx, dy) || 1;
+        const bend = (o.arrow.bend ?? 0.22) * len;
+        const C = { x: (A.x + B.x) / 2 - (dy / len) * bend, y: (A.y + B.y) / 2 + (dx / len) * bend };
+        const tx = B.x - C.x, ty = B.y - C.y, tl = Math.hypot(tx, ty) || 1, ux = tx / tl, uy = ty / tl;
+        const hw = wdt * 2.1, hl2 = wdt * 3.4, px = -uy, py = ux;
+        const E = { x: B.x - ux * hl2 * 0.8, y: B.y - uy * hl2 * 0.8 };
+        strokeOutlined(() => { g.beginPath(); g.moveTo(A.x, A.y); g.quadraticCurveTo(C.x, C.y, E.x, E.y); }, wdt, color);
+        const head = () => { g.beginPath(); g.moveTo(B.x, B.y); g.lineTo(B.x - ux * hl2 + px * hw, B.y - uy * hl2 + py * hw); g.lineTo(B.x - ux * hl2 - px * hw, B.y - uy * hl2 - py * hw); g.closePath(); };
+        g.lineJoin = 'round'; g.strokeStyle = '#FFFFFF'; g.lineWidth = 14; head(); g.stroke();
+        g.fillStyle = color; head(); g.fill();
+      }
+    }
+    // circle highlight around a detail
+    if (o.circle) {
+      const P = toScreen(o.circle.at);
+      if (P) {
+        const r = (o.circle.r ?? 0.12) * H, color = o.circle.color || HOT;
+        strokeOutlined(() => { g.beginPath(); g.ellipse(P.x, P.y, r * 1.12, r, -0.15, 0.15, Math.PI * 2 - 0.05); }, 14, color);
+      }
+    }
+    // optional fact chip (slightly tilted sticker)
+    for (const c of o.callouts || []) {
+      const fs = c.size ?? 54;
+      g.font = font(900, fs); g.letterSpacing = '-1px';
+      const tw = g.measureText(c.text).width, cw = tw + 56, ch = fs * 1.5;
+      const cx = c.chip[0] * REF_W, cy = c.chip[1] * H;
+      g.save(); g.translate(cx + cw / 2, cy + ch / 2); g.rotate(c.tilt ?? -0.03);
+      g.fillStyle = 'rgba(0,0,0,0.9)'; g.fillRect(-cw / 2 + 10, -ch / 2 + 12, cw, ch);
+      g.fillStyle = c.bg || '#FFFFFF'; g.fillRect(-cw / 2, -ch / 2, cw, ch);
+      g.fillStyle = c.color || INK; g.textAlign = 'center'; g.textBaseline = 'middle';
+      g.fillText(c.text, 0, 3);
+      g.restore(); g.letterSpacing = '0px';
     }
   }
 

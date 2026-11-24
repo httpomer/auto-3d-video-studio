@@ -1,0 +1,14 @@
+{
+  "thumbnail": {
+    "hot": "#FF2D2D",
+    "look": {
+      "saturation": 1.12,
+      "contrast": 1.12,
+      "exposure": 1.0,
+      "bloom": 0.45,
+      "bloomThreshold": 1.0,
+      "vignette": 0.9,
+      "grain": 0.015
+    }
+  }
+}

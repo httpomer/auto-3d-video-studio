@@ -146,7 +146,24 @@ async function produce() {
   if (chapters.length >= 3) desc += 'Chapters:\n' + chapters.map((c, i) => `${ytTime(i === 0 ? 0 : c.start)} ${c.title}`).join('\n') + '\n\n';
   if (m.sources?.length) desc += 'Sources:\n' + m.sources.map((s) => `- ${s}`).join('\n') + '\n\n';
   if (m.hashtags?.length) desc += m.hashtags.map((h) => (h.startsWith('#') ? h : '#' + h)).join(' ') + '\n';
-  fs.writeFileSync(path.join(outDir, 'youtube.txt'), `TITLE\n${m.title}\n\n${m.altTitles?.length ? 'ALTERNATIVE TITLES\n' + m.altTitles.join('\n') + '\n\n' : ''}DESCRIPTION\n${desc}\nTAGS\n${(m.tags || []).join(', ')}\n`);
+  const tags = m.tags || [];
+  const block = (title, body) => (body ? `${title}\n${body}\n\n` : '');
+  const lang = m.language || 'English';
+  const upload = [
+    m.category && `Category: ${m.category}`,
+    `Video language: ${lang} · Captions: upload subtitles.srt as ${lang} subtitles`,
+    'Audience: not made for kids',
+    m.playlist && `Playlist: ${m.playlist}`,
+    (m.thumbnail?.variants?.length ? `Thumbnail: thumbnail.jpg — add thumbnail_b.jpg${m.thumbnail.variants.length > 1 ? ' and thumbnail_c.jpg' : ''} in YouTube Studio → Test & Compare` : 'Thumbnail: thumbnail.jpg (1280×720)'),
+    'Chapters: the timestamps in the description create YouTube chapters automatically',
+  ].filter(Boolean).join('\n');
+  fs.writeFileSync(path.join(outDir, 'youtube.txt'),
+    block('TITLE', m.title) +
+    block('ALTERNATIVE TITLES (for A/B testing)', (m.altTitles || []).join('\n')) +
+    block('DESCRIPTION', desc.trim()) +
+    block(`TAGS (${tags.join(',').length}/500 characters)`, tags.join(', ')) +
+    block('PINNED COMMENT', m.pinnedComment) +
+    block('UPLOAD SETTINGS', upload));
 
   const size = fs.statSync(final).size / 1048576;
   log(`\nDONE in ${((Date.now() - t0) / 60000).toFixed(1)} min`);
@@ -156,19 +173,43 @@ async function produce() {
   log(`  metadata:  ${path.join(outDir, 'youtube.txt')}`);
 }
 
+/** Channel-wide brand settings (name, colour, thumbnail grade) from channel.json. */
+function loadChannel() {
+  const f = path.join(ROOT, 'channel.json');
+  return fs.existsSync(f) ? JSON.parse(fs.readFileSync(f, 'utf8')) : {};
+}
+
 async function makeThumbnail(video, tl, outDir, renderFramePng) {
-  const th = video.meta.thumbnail || {};
+  const ch = loadChannel(), cth = ch.thumbnail || {};
+  const base = video.meta.thumbnail || {};
   const first = flattenShots(video).shots[0];
-  const shot = {
-    id: 'thumb', scene: th.scene || first.scene, params: th.params || first.params || {}, camera: th.camera, duration: 8,
-    overlays: [{ type: 'thumb', text: th.text || video.meta.title, highlight: th.highlight, kicker: th.kicker, side: th.side, at: 0 }],
-    look: { vignette: 0.7, saturation: 1.2, ...(th.look || {}) },
-  };
-  const ttl = buildTimeline({ meta: { ...video.meta, theme: th.theme || video.meta.theme }, shots: [shot] }, {}, { width: 1920, height: 1080 });
-  const png = path.join(outDir, 'thumbnail.png');
-  await renderFramePng(ttl, th.time ?? 5, png);
-  await runFF(['-i', png, '-vf', 'scale=1280:720:flags=lanczos', '-q:v', '2', path.join(outDir, 'thumbnail.jpg')]);
-  fs.rmSync(png, { force: true });
+  // variants share the scene/camera and override text, colour or graphics — for YouTube "Test & Compare"
+  const variants = [base, ...(base.variants || []).map((v) => ({ ...base, ...v }))];
+  const files = [];
+  for (let i = 0; i < variants.length; i++) {
+    const th = variants[i];
+    const shot = {
+      id: 'thumb', scene: th.scene || first.scene, params: th.params || first.params || {}, camera: th.camera, duration: 8, hideLabels: th.sceneLabels !== true,
+      overlays: [{ type: 'thumb', at: 0, text: th.text || video.meta.title, sub: th.sub, highlight: th.highlight, hot: th.hot || cth.hot, side: th.side,
+        arrow: th.arrow, circle: th.circle, callouts: th.callouts, size: th.size, width: th.width, y: th.y, maxLines: th.maxLines }],
+      look: { ...(cth.look || {}), ...(th.look || {}) },
+    };
+    const ttl = buildTimeline({ meta: { ...video.meta, theme: th.theme || cth.theme || video.meta.theme, themeOverrides: th.themeOverrides || video.meta.themeOverrides }, shots: [shot] }, {}, { width: 1920, height: 1080 });
+    const name = i === 0 ? 'thumbnail' : `thumbnail_${String.fromCharCode(97 + i)}`;
+    const png = path.join(outDir, name + '.png');
+    await renderFramePng(ttl, th.time ?? 5, png);
+    await runFF(['-i', png, '-vf', 'scale=1280:720:flags=lanczos', '-q:v', '2', path.join(outDir, name + '.jpg')]);
+    fs.rmSync(png, { force: true });
+    files.push(path.join(outDir, name + '.jpg'));
+  }
+  return files;
+}
+
+async function thumbnailOnly() {
+  const { dir, video } = loadVideo();
+  const { renderFramePng } = await import('./render.js');
+  const files = await makeThumbnail(video, null, ensureDir(path.join(dir, 'output')), renderFramePng);
+  for (const f of files) log('thumbnail: ' + f);
 }
 
 async function stills() {
@@ -189,6 +230,7 @@ try {
   if (cmd === 'catalog') await catalog();
   else if (cmd === 'validate') { const { video } = loadVideo(); const v = await validate(video); process.exitCode = v.errors.length ? 1 : 0; }
   else if (cmd === 'stills') await stills();
+  else if (cmd === 'thumbnail') await thumbnailOnly();
   else if (cmd === 'produce') await produce();
-  else { console.log('usage: node pipeline/cli.js <catalog|validate|stills|produce> [slug] [--workers=3] [--crf=17] [--no-captions]'); process.exitCode = 1; }
+  else { console.log('usage: node pipeline/cli.js <catalog|validate|stills|produce|thumbnail> [slug] [--workers=3] [--crf=17] [--no-captions]'); process.exitCode = 1; }
 } catch (e) { console.error('\nFAILED: ' + (e?.stack || e)); process.exit(1); }

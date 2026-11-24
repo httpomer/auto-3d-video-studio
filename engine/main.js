@@ -17,7 +17,7 @@ let useCounter = 0;
 async function loadFonts() {
   const F = (family, weight, file) => new FontFace(family, `url(/node_modules/@fontsource/${file})`, { weight: String(weight) });
   const faces = [
-    ...[400, 500, 600, 700].map((w) => F('Inter', w, `inter/files/inter-latin-${w}-normal.woff2`)),
+    ...[400, 500, 600, 700, 800, 900].map((w) => F('Inter', w, `inter/files/inter-latin-${w}-normal.woff2`)),
     ...[500, 600, 700].map((w) => F('Space Grotesk', w, `space-grotesk/files/space-grotesk-latin-${w}-normal.woff2`)),
     ...[500, 700].map((w) => F('JetBrains Mono', w, `jetbrains-mono/files/jetbrains-mono-latin-${w}-normal.woff2`)),
   ];
@@ -133,12 +133,12 @@ function renderAt(T, { captions = true } = {}) {
   a.view.fade = Math.min(fadeIn, fadeOut);
   stage.renderView(a.view, stage.rtA, T);
   const m = clamp(mix);
-  hud.drawShot({ overlays: a.shot.overlays, labels: a.labels, t: a.t, dur: a.shot.dur, camera: a.view.camera, anchors: a.anchors, weight: B >= 0 ? 1 - ease.inOutCubic(m) : 1 });
+  hud.drawShot({ overlays: a.shot.overlays, labels: a.shot.hideLabels ? [] : a.labels, t: a.t, dur: a.shot.dur, camera: a.view.camera, anchors: a.anchors, weight: B >= 0 ? 1 - ease.inOutCubic(m) : 1 });
   if (B >= 0) {
     const b = prepare(B, T);
     b.view.fade = Math.min(fadeIn, fadeOut);
     stage.renderView(b.view, stage.rtB, T);
-    hud.drawShot({ overlays: b.shot.overlays, labels: b.labels, t: b.t, dur: b.shot.dur, camera: b.view.camera, anchors: b.anchors, weight: ease.inOutCubic(m) });
+    hud.drawShot({ overlays: b.shot.overlays, labels: b.shot.hideLabels ? [] : b.labels, t: b.t, dur: b.shot.dur, camera: b.view.camera, anchors: b.anchors, weight: ease.inOutCubic(m) });
     stage.present(true, m, type);
   } else stage.present(false, 0, 'cut');
   if (captions && P.captions) {

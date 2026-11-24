@@ -148,7 +148,7 @@ export function buildTimeline(video, audio = {}, opts = {}) {
     const params = { ...(s.params || {}) };
     if (s.cues) { params.cues = {}; for (const k in s.cues) params.cues[k] = resolveTime(s.cues[k], dur, lead, tokens, 0); }
 
-    out.push({ id: s.id, start: T, dur, scene: s.scene, params, camera: s.camera, overlays, transition: tr, look: s.look, instance, instanceFirst, chapter: s.chapter });
+    out.push({ id: s.id, start: T, dur, scene: s.scene, params, camera: s.camera, overlays, transition: tr, look: s.look, hideLabels: s.hideLabels, instance, instanceFirst, chapter: s.chapter });
     if (hasVoice) {
       narration.push({ id: s.id, at: T + lead, dur: aDur });
       if (s.captions !== false) captions.push(...buildCues(tokens, T + lead));

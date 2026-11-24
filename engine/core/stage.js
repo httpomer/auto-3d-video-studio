@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { FullScreenQuad } from 'three/addons/postprocessing/Pass.js';
 
@@ -137,6 +138,10 @@ export class Stage {
     this.finish = new ShaderPass(FinishShader);
     this.finish.uniforms.uRes.value.set(width, height);
     composer.addPass(this.renderPass);
+    // optional depth of field (look.dof = { focus: distance, aperture, maxblur }) — used for thumbnails
+    this.bokeh = new BokehPass(new THREE.Scene(), new THREE.PerspectiveCamera(), { focus: 10, aperture: 0.002, maxblur: 0.01 });
+    this.bokeh.enabled = false;
+    composer.addPass(this.bokeh);
     composer.addPass(this.bloom);
     composer.addPass(this.finish);
     this.composer = composer;
@@ -187,6 +192,14 @@ export class Stage {
     const look = view.look || {};
     this.renderPass.scene = view.scene;
     this.renderPass.camera = view.camera;
+    const dof = look.dof;
+    this.bokeh.enabled = !!dof;
+    if (dof) {
+      this.bokeh.scene = view.scene; this.bokeh.camera = view.camera;
+      this.bokeh.uniforms.focus.value = dof.focus ?? 10;
+      this.bokeh.uniforms.aperture.value = dof.aperture ?? 0.002;
+      this.bokeh.uniforms.maxblur.value = dof.maxblur ?? 0.01;
+    }
     this.bloom.strength = look.bloom ?? 0.42;
     this.bloom.radius = look.bloomRadius ?? 0.55;
     this.bloom.threshold = look.bloomThreshold ?? 1.15;

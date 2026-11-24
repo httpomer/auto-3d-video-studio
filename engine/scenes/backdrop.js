@@ -122,9 +122,8 @@ export default {
           }`,
       });
       const pts = new THREE.Points(g, m); pts.frustumCulled = false; scene.add(pts);
-      const core = mesh(new THREE.SphereGeometry(0.32, 32, 24), M.glow(theme.accent2, 1.6), { pos: [0, 0.9, 0], parent: scene, shadow: false });
       
-      upd = (t, I) => { m.uniforms.uTime.value = t * speed; m.uniforms.uI.value = 0.3 + I * 0.8; core.scale.setScalar(1 + 0.06 * Math.sin(t * 1.4)); };
+      upd = (t, I) => { m.uniforms.uTime.value = t * speed; m.uniforms.uI.value = 0.3 + I * 0.8; };
     }
 
     if (style === 'pillars') {

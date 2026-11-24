@@ -99,8 +99,9 @@ which camera move → how long (from the narration) → how it hands over to the
     "sources": ["NVIDIA Q3 FY2027 earnings release — https://…"],
     "voice": { "name": "en-US-AndrewMultilingualNeural", "rate": "+3%" },   // optional
     "music": { "mood": "inspiring", "volume": 0.3 },    // inspiring | serious | tense | hopeful
-    "thumbnail": { "scene": "chip", "params": { "label": "AI", "explode": true }, "camera": { "from": "hero", "to": "hero" },
-                   "text": "The $4 trillion chip", "highlight": "$4", "kicker": "Explained", "side": "left" }
+    "thumbnail": { "scene": "chip", "params": { "label": "GPU", "explode": true }, "camera": { "from": "hero", "to": "hero" },
+                   "kicker": "Explained", "text": "How NVIDIA / won AI", "highlight": "NVIDIA", "side": "left",
+                   "callouts": [ { "anchor": "die", "text": "$115.8B in 3 months", "sub": "from chips like this one", "chip": [0.62, 0.1] } ] }
   },
   "chapters": [
     { "title": "The hook",                         // becomes a YouTube chapter (needs ≥ 3 chapters, each ≥ 10 s)
@@ -145,6 +146,42 @@ word (`"@trillion"` = the moment that word starts). `hold` = seconds on screen (
 | `quote` | `text`, `by` | a quotation |
 | `tag` | `text`, `pos` (`top-left`/`top-right`) | small context pill (a year, "Estimate") |
 | `source` | `text` | data attribution, top-right |
+
+## Thumbnails (channel template)
+
+The thumbnail decides whether anyone clicks. The owner wants thumbnails that stop the scroll — modelled on
+high-CTR explainer channels — and rejected both glowing "AI-art" thumbnails and quiet, book-cover-style ones.
+No channel name or logo on the thumbnail. Every video gets 3 variants for YouTube Studio → Test & Compare.
+
+Template (fixed for every video, so the channel is recognisable):
+- **One big subject** on one side (~50–60 % of the frame): a concrete, hard-surface object or a strong
+  visual metaphor — these render convincingly in 3D. Proven: graphics card (`gpu_card`), red-lit server aisle
+  (`datacenter` with `themeOverrides`), and the `props` scene: `chess` (giant AI king over a toppled human
+  king — "Game over?"), `countdown` (red LED "365 DAYS"), `stop` (emergency STOP button — "Can we stop it?").
+  The owner rejected the abstract eye (`ai_eye`, "looks like a black hole") and every version of the
+  procedural `robot` — humanoid faces built from primitives look like a game/toy. Do not use them as
+  thumbnail heroes. (A photoreal subject would need an image-generation service; none is available now.)
+  The subject may bleed off the frame edge.
+- **Background:** dark, out of focus (`look.dof`), with a little colour from the scene. Use `look.exposure`
+  to lift dark objects.
+- **2–4 giant words** on the other side (`text`, ` / ` forces a line break), white Inter Black with a thick
+  black outline and hard shadow. The hook word in the hot colour (`highlight`, `hot`; red by default,
+  or a colour tied to the topic, e.g. NVIDIA green). Optional small context line (`sub`), e.g.
+  `"$115B"` + `"in 3 months"`.
+- The text must **add** curiosity or emotion — a number, a question, a stake — not repeat the title.
+  Keep it honest: questions are fine, false claims are not; numbers must come from `research.md`.
+- Optional: a hand-drawn style arrow (`arrow: { to: { anchor } }`) or circle (`circle: { at, r }`) pointing
+  at the detail the video explains; a sticker chip (`callouts: [{ text, chip: [fx, fy] }]`).
+- **Variants:** `variants: [ {...}, {...} ]` override text / colour / graphics; they render as
+  `thumbnail_b.jpg`, `thumbnail_c.jpg`. Make the three hooks genuinely different (a number, a question,
+  a stake).
+
+Composition: put the subject on the opposite side to the text with an explicit camera
+`{ "from": {pos, target, fov}, "to": same }`; panning `target` toward the text side moves the subject away
+from it, and moving `pos` back along the view direction makes it smaller. per-thumbnail `themeOverrides` (e.g. `{ "accent": "#ff2a2a" }`) recolour the scene.
+
+Iterate with `npm run thumbnail -- <slug>` (renders all variants, ~1 min) and look at every variant, also
+downscaled to phone size (~320 px wide): the words must still read and the subject must still be obvious.
 
 ## Adding a scene
 

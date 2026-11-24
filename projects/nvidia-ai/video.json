@@ -39,19 +39,77 @@
    "mood": "serious"
   },
   "thumbnail": {
-   "scene": "chip",
+   "scene": "gpu_card",
+   "theme": "silicon",
    "params": {
-    "label": "AI",
-    "explode": true,
-    "cores": 16
+    "fans": 3,
+    "explode": false,
+    "activity": 1,
+    "spin": 0.6
    },
    "camera": {
-    "from": "hero",
-    "to": "hero"
+    "from": {
+     "pos": [
+      6.6,
+      5.96,
+      11.6
+     ],
+     "target": [
+      -3.3,
+      1.7,
+      2.4
+     ],
+     "fov": 30
+    },
+    "to": {
+     "pos": [
+      6.6,
+      5.96,
+      11.6
+     ],
+     "target": [
+      -3.3,
+      1.7,
+      2.4
+     ],
+     "fov": 30
+    }
    },
-   "text": "How NVIDIA took over AI",
-   "highlight": "NVIDIA",
-   "kicker": "Explained in 3D"
+   "time": 5,
+   "look": {
+    "dof": {
+     "focus": 14.2,
+     "aperture": 0.002,
+     "maxblur": 0.008
+    },
+    "exposure": 2.1,
+    "contrast": 1.2,
+    "saturation": 1.2
+   },
+   "text": "$115B",
+   "highlight": "$115B",
+   "hot": "#7CFF3A",
+   "side": "left",
+   "arrow": null,
+   "variants": [
+    {
+     "text": "Losing / its grip?",
+     "highlight": "grip?",
+     "hot": "#FF2D2D",
+     "arrow": null,
+     "sub": null,
+     "size": null
+    },
+    {
+     "text": "The chip / behind AI",
+     "highlight": "AI",
+     "arrow": null,
+     "sub": null,
+     "size": null
+    }
+   ],
+   "sub": "in 3 months",
+   "size": 300
   }
  },
  "chapters": [
