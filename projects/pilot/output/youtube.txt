@@ -1,9 +1,0 @@
-TITLE
-Pipeline pilot
-
-DESCRIPTION
-Short end-to-end pipeline test.
-
-
-TAGS
-test

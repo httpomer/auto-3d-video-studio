@@ -7,6 +7,6 @@ projects/*/build/
 projects/*/audio/
 
 # rendered media is too large for git (GitHub limit 100 MB/file)
-projects/*/output/*.mp4
+projects/*/output/
 *.wav
 *.mp3
