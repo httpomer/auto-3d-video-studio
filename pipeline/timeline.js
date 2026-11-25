@@ -151,7 +151,7 @@ export function buildTimeline(video, audio = {}, opts = {}) {
     out.push({ id: s.id, start: T, dur, scene: s.scene, params, camera: s.camera, overlays, transition: tr, look: s.look, hideLabels: s.hideLabels, instance, instanceFirst, chapter: s.chapter });
     if (hasVoice) {
       narration.push({ id: s.id, at: T + lead, dur: aDur });
-      if (s.captions !== false) captions.push(...buildCues(tokens, T + lead));
+      if (s.captions !== false) captions.push(...buildCues(tokens, T + lead, height > width ? 15 : 34));
     }
     if (s.chapterStart) chapters[s.chapter].start = T;
     T += dur;

@@ -1,0 +1,571 @@
+{
+  "meta": {
+    "title": "What If You Were Thanos? The First 84 Years After the Snap #Shorts",
+    "slug": "thanos-snap-short",
+    "theme": "ai",
+    "themeOverrides": {
+      "captionHot": "#FFD43B",
+      "bg0": "#2a1f5c",
+      "bg1": "#5a3fa8",
+      "floor": "#1c1640"
+    },
+    "width": 1080,
+    "height": 1920,
+    "description": "You snap your fingers and half of humanity turns to dust. Second by second, here is what actually happens next — and why the plan falls apart 84 years later. Figures: UN World Population Prospects 2024 and Flightradar24.",
+    "tags": [
+      "thanos",
+      "thanos snap",
+      "what if",
+      "half of humanity",
+      "probability",
+      "world population",
+      "shorts",
+      "science"
+    ],
+    "hashtags": [
+      "Shorts",
+      "Thanos",
+      "WhatIf",
+      "Science"
+    ],
+    "altTitles": [
+      "Thanos Snapped. Here's What Happens Next (Real Math) #Shorts",
+      "Why the Thanos Snap Wouldn't Work #Shorts"
+    ],
+    "sources": [
+      "UN World Population Prospects 2024 (8.30 billion, 1 July 2026; ~0.83% growth in 2026) — https://population.un.org/wpp/",
+      "World population milestones (4 billion in 1974) — https://en.wikipedia.org/wiki/World_population_milestones",
+      "Flightradar24 record: 22,000 flights in the air at once (May 2023) — https://www.flightradar24.com/blog/inside-flightradar24/the-busy-summer-skies-continuing-to-break-flight-tracking-records/"
+    ],
+    "music": {
+      "mood": "tense",
+      "volume": 0.3
+    },
+    "thumbnail": {
+      "scene": "crowd",
+      "params": {
+        "size": 160,
+        "perRow": 9,
+        "vanishFrom": 0,
+        "vanish": 1,
+        "vanishDur": 8,
+        "cues": {
+          "snap": 0
+        },
+        "spacing": 0.42
+      },
+      "camera": {
+        "from": "hero",
+        "to": "hero",
+        "fit": 0.38
+      },
+      "time": 2.2,
+      "text": "HALF OF / HUMANITY / GONE?",
+      "highlight": "GONE?",
+      "hot": "#B98CFF",
+      "width": 0.88,
+      "y": 0.2
+    },
+    "look": {
+      "exposure": 1.12
+    }
+  },
+  "chapters": [
+    {
+      "title": null,
+      "energy": 0.7,
+      "shots": [
+        {
+          "narration": "You're Thanos. You raise your hand, and you snap.",
+          "say": "You're Thanos. You raise your hand... and you snap.",
+          "scene": "crowd",
+          "params": {
+            "size": 160,
+            "perRow": 9,
+            "spacing": 0.42,
+            "vanishFrom": 0,
+            "vanish": 0.55,
+            "vanishDur": 2.2,
+            "wave": true
+          },
+          "cues": {
+            "snap": "@snap"
+          },
+          "camera": {
+            "from": "hero",
+            "to": "low",
+            "fit": 0.38
+          },
+          "overlays": [
+            {
+              "type": "title",
+              "kicker": "What if",
+              "text": "You were Thanos?",
+              "y": 0.2,
+              "at": 0.1,
+              "until": "@snap",
+              "size": 112
+            }
+          ]
+        },
+        {
+          "narration": "Second one. Four point one five billion people turn to dust.",
+          "scene": "crowd",
+          "continues": true,
+          "params": {
+            "size": 160,
+            "perRow": 9,
+            "spacing": 0.42,
+            "vanish": 1,
+            "vanishDur": 3
+          },
+          "camera": {
+            "from": "wide",
+            "to": "top",
+            "fit": 0.42
+          },
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Second 1",
+              "pos": "top-left",
+              "at": 0.15
+            },
+            {
+              "type": "stat",
+              "value": 4.15,
+              "decimals": 2,
+              "suffix": "B",
+              "label": "People gone",
+              "sub": "half of 8.30 billion",
+              "at": "@four",
+              "y": 0.2
+            },
+            {
+              "type": "source",
+              "text": "UN World Population Prospects 2024 · mid-2026"
+            }
+          ]
+        },
+        {
+          "narration": "Second two. Above you, as many as twenty thousand aircraft are mid-flight.",
+          "scene": "globe",
+          "params": {
+            "labels": false,
+            "points": [
+              {
+                "name": "London",
+                "lat": 51.47,
+                "lon": -0.45,
+                "color": "accent"
+              },
+              {
+                "name": "New York",
+                "lat": 40.64,
+                "lon": -73.78,
+                "color": "accent"
+              },
+              {
+                "name": "Dubai",
+                "lat": 25.25,
+                "lon": 55.36,
+                "color": "warm"
+              },
+              {
+                "name": "Frankfurt",
+                "lat": 50.03,
+                "lon": 8.57,
+                "color": "accent2"
+              },
+              {
+                "name": "Singapore",
+                "lat": 1.36,
+                "lon": 103.99,
+                "color": "accent2"
+              },
+              {
+                "name": "Johannesburg",
+                "lat": -26.13,
+                "lon": 28.24,
+                "color": "accent2"
+              },
+              {
+                "name": "Sao Paulo",
+                "lat": -23.43,
+                "lon": -46.47,
+                "color": "accent2"
+              },
+              {
+                "name": "Chicago",
+                "lat": 41.97,
+                "lon": -87.9,
+                "color": "accent2"
+              }
+            ],
+            "arcs": [
+              [
+                "London",
+                "New York"
+              ],
+              [
+                "Dubai",
+                "London"
+              ],
+              [
+                "Frankfurt",
+                "Singapore"
+              ],
+              [
+                "Dubai",
+                "Johannesburg"
+              ],
+              [
+                "Sao Paulo",
+                "Frankfurt"
+              ],
+              [
+                "Chicago",
+                "London"
+              ],
+              [
+                "New York",
+                "Sao Paulo"
+              ],
+              [
+                "Dubai",
+                "Singapore"
+              ]
+            ],
+            "focus": {
+              "lat": 35,
+              "lon": 10
+            }
+          },
+          "camera": {
+            "from": "wide",
+            "to": "close",
+            "fit": 0.85
+          },
+          "transition": "zoom",
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Second 2",
+              "pos": "top-left",
+              "at": 0.15
+            },
+            {
+              "type": "stat",
+              "value": 22000,
+              "label": "In the air at once",
+              "sub": "record, May 2023",
+              "at": "@twenty",
+              "y": 0.2
+            },
+            {
+              "type": "source",
+              "text": "Flightradar24"
+            }
+          ]
+        },
+        {
+          "narration": "Most cockpits hold two pilots. In one out of every four, both seats are now empty.",
+          "scene": "crowd",
+          "params": {
+            "size": 2,
+            "groups": 4,
+            "cols": 1,
+            "gap": 0.55,
+            "mode": "enumerate",
+            "vanishFrom": 0,
+            "vanish": 1,
+            "vanishDur": 1.8,
+            "highlight": 3,
+            "groupLabels": [
+              "BOTH STAY",
+              "CAPTAIN GONE",
+              "CO-PILOT GONE",
+              "BOTH GONE"
+            ],
+            "labelSide": "right",
+            "spacing": 0.4
+          },
+          "cues": {
+            "snap": "@In",
+            "highlight": "@both"
+          },
+          "camera": {
+            "from": {
+              "pos": [
+                0.45,
+                2.5,
+                4.1
+              ],
+              "target": [
+                0.28,
+                0.4,
+                0.35
+              ],
+              "fov": 34
+            },
+            "to": {
+              "pos": [
+                0.35,
+                3.5,
+                3
+              ],
+              "target": [
+                0.28,
+                0.3,
+                0.3
+              ],
+              "fov": 34
+            },
+            "fit": 0.85
+          },
+          "overlays": [
+            {
+              "type": "stat",
+              "value": "1 in 4",
+              "label": "Cockpits left empty",
+              "pos": "center",
+              "y": 0.15,
+              "at": "@four"
+            }
+          ]
+        },
+        {
+          "narration": "Minute one. Cars with no one at the wheel drift through red lights in every city on Earth.",
+          "scene": "city",
+          "params": {
+            "seed": 11,
+            "density": 0.8
+          },
+          "camera": {
+            "from": "street",
+            "to": "aerial",
+            "fit": 0.8
+          },
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Minute 1",
+              "pos": "top-left",
+              "at": 0.15
+            }
+          ]
+        },
+        {
+          "narration": "Hour one. You start counting your family. With four of you, the odds that nobody is missing? One in sixteen.",
+          "scene": "crowd",
+          "params": {
+            "size": 4,
+            "groups": 16,
+            "cols": 2,
+            "gap": 0.6,
+            "mode": "enumerate",
+            "vanishFrom": 0,
+            "vanish": 1,
+            "vanishDur": 2.2,
+            "highlight": 0,
+            "highlightSlot": 6,
+            "spacing": 0.36
+          },
+          "cues": {
+            "snap": "@counting",
+            "highlight": "@sixteen"
+          },
+          "camera": {
+            "from": {
+              "pos": [
+                1.6,
+                4.6,
+                6
+              ],
+              "target": [
+                0,
+                0,
+                1.4
+              ],
+              "fov": 34
+            },
+            "to": {
+              "pos": [
+                0.4,
+                6.6,
+                3.6
+              ],
+              "target": [
+                0,
+                0,
+                1
+              ],
+              "fov": 34
+            },
+            "fit": 0.8
+          },
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Hour 1",
+              "pos": "top-left",
+              "at": 0.15
+            },
+            {
+              "type": "stat",
+              "value": "1 in 16",
+              "label": "Whole family survives",
+              "pos": "center",
+              "y": 0.2,
+              "at": "@sixteen"
+            }
+          ]
+        },
+        {
+          "narration": "Day one. Humanity wakes up as small as it was in the mid nineteen seventies.",
+          "scene": "line_chart",
+          "params": {
+            "data": [
+              2.5,
+              4.07,
+              8.3,
+              4.15
+            ],
+            "xLabels": [
+              "1950",
+              "1974",
+              "2026",
+              "After"
+            ],
+            "suffix": "B",
+            "decimals": 2,
+            "title": "World population",
+            "markers": [
+              {
+                "index": 1,
+                "label": "4 billion"
+              },
+              {
+                "index": 3,
+                "label": "The snap"
+              }
+            ],
+            "drawDur": 3.6
+          },
+          "camera": {
+            "from": "wide",
+            "to": "front",
+            "fit": 1.15
+          },
+          "transition": "wipe",
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Day 1",
+              "pos": "top-left",
+              "at": 0.15
+            },
+            {
+              "type": "source",
+              "text": "UN World Population Prospects 2024"
+            }
+          ]
+        },
+        {
+          "narration": "But here's the twist. At today's growth rate, we're all back in about eighty-four years.",
+          "scene": "props",
+          "params": {
+            "prop": "countdown",
+            "number": 84,
+            "unit": "YEARS",
+            "caption": "TO REGROW"
+          },
+          "camera": {
+            "from": {
+              "pos": [
+                1.1,
+                2.4,
+                12.4
+              ],
+              "target": [
+                1.1,
+                2,
+                0
+              ],
+              "fov": 34
+            },
+            "to": {
+              "pos": [
+                0.6,
+                2.2,
+                10.6
+              ],
+              "target": [
+                1.1,
+                2,
+                0
+              ],
+              "fov": 34
+            },
+            "fit": 1
+          },
+          "overlays": [
+            {
+              "type": "tag",
+              "text": "Year 84",
+              "pos": "top-left",
+              "at": "@back"
+            },
+            {
+              "type": "source",
+              "text": "at ~0.83% growth a year (UN, 2026)"
+            }
+          ]
+        },
+        {
+          "narration": "So you'd have to snap again. And again. Every eighty-four years. Forever.",
+          "scene": "crowd",
+          "params": {
+            "size": 160,
+            "perRow": 9,
+            "spacing": 0.42,
+            "seed": 21,
+            "vanishFrom": 0,
+            "vanish": 0.6,
+            "vanishDur": 2.4,
+            "wave": true
+          },
+          "cues": {
+            "snap": "@again"
+          },
+          "camera": {
+            "from": "top",
+            "to": "hero",
+            "fit": 0.42
+          },
+          "transition": "dip"
+        },
+        {
+          "narration": "Still want the gauntlet? Tell me in the comments, and subscribe for more what ifs.",
+          "scene": "backdrop",
+          "params": {
+            "style": "galaxy",
+            "intensity": 0.9
+          },
+          "camera": {
+            "from": "wide",
+            "to": "hero"
+          },
+          "overlays": [
+            {
+              "type": "title",
+              "text": "Would you snap?",
+              "y": 0.25,
+              "at": 0.2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

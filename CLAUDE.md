@@ -183,6 +183,21 @@ from it, and moving `pos` back along the view direction makes it smaller. per-th
 Iterate with `npm run thumbnail -- <slug>` (renders all variants, ~1 min) and look at every variant, also
 downscaled to phone size (~320 px wide): the words must still read and the subject must still be obvious.
 
+## YouTube Shorts (vertical)
+
+When the owner asks for a "short", make a 9:16 video instead of the 8–10 minute format:
+- `meta.width: 1080, meta.height: 1920`; one chapter with `"title": null` (no chapters in the description);
+  `#Shorts` in the title or hashtags. Target 40–60 s: 110–150 words, 8–10 shots, same research and accuracy rules.
+- Portrait mode is automatic: the HUD uses a 1080-wide layout (overlays default to the upper third, centred),
+  captions become big outlined words at ~65 % height with the spoken word lit (`themeOverrides.captionHot`),
+  and the thumbnail is a 1080×1920 cover. Keep overlays in the top ~35 % — the Shorts UI covers the bottom ~25 %
+  and the right edge.
+- Scene framings are composed for 16:9. In portrait the camera pulls back so the frame's width covers what the
+  landscape frame's height did; tune per shot with `camera.fit` (< 1 = tighter, > 1 = wider) or give explicit
+  `{pos, target, fov}` framings. Always check the stills: wide subjects (charts, panels) often need `fit` ≥ 1.
+- Scene `cues` go on the shot (`"cues": {...}`), never inside `params` — only shot-level cues are resolved.
+- `node pipeline/dev.js <scene> --portrait --fit=0.8` previews a scene vertically.
+
 ## Adding a scene
 
 A scene template is one file in `engine/scenes/<name>.js` (auto-discovered) exporting

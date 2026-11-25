@@ -149,12 +149,13 @@ async function produce() {
   const tags = m.tags || [];
   const block = (title, body) => (body ? `${title}\n${body}\n\n` : '');
   const lang = m.language || 'English';
+  const portrait = tl.height > tl.width;
   const upload = [
     m.category && `Category: ${m.category}`,
     `Video language: ${lang} · Captions: upload subtitles.srt as ${lang} subtitles`,
     'Audience: not made for kids',
     m.playlist && `Playlist: ${m.playlist}`,
-    (m.thumbnail?.variants?.length ? `Thumbnail: thumbnail.jpg — add thumbnail_b.jpg${m.thumbnail.variants.length > 1 ? ' and thumbnail_c.jpg' : ''} in YouTube Studio → Test & Compare` : 'Thumbnail: thumbnail.jpg (1280×720)'),
+    (portrait ? 'Format: YouTube Short (9:16) — thumbnail.jpg is a 1080×1920 cover; pick it in the Shorts upload screen' : m.thumbnail?.variants?.length ? `Thumbnail: thumbnail.jpg — add thumbnail_b.jpg${m.thumbnail.variants.length > 1 ? ' and thumbnail_c.jpg' : ''} in YouTube Studio → Test & Compare` : 'Thumbnail: thumbnail.jpg (1280×720)'),
     'Chapters: the timestamps in the description create YouTube chapters automatically',
   ].filter(Boolean).join('\n');
   fs.writeFileSync(path.join(outDir, 'youtube.txt'),
@@ -186,6 +187,7 @@ async function makeThumbnail(video, tl, outDir, renderFramePng) {
   // variants share the scene/camera and override text, colour or graphics — for YouTube "Test & Compare"
   const variants = [base, ...(base.variants || []).map((v) => ({ ...base, ...v }))];
   const files = [];
+  const portrait = (video.meta.height ?? 1080) > (video.meta.width ?? 1920); // Shorts get a 9:16 cover
   for (let i = 0; i < variants.length; i++) {
     const th = variants[i];
     const shot = {
@@ -194,11 +196,11 @@ async function makeThumbnail(video, tl, outDir, renderFramePng) {
         arrow: th.arrow, circle: th.circle, callouts: th.callouts, size: th.size, width: th.width, y: th.y, maxLines: th.maxLines }],
       look: { ...(cth.look || {}), ...(th.look || {}) },
     };
-    const ttl = buildTimeline({ meta: { ...video.meta, theme: th.theme || cth.theme || video.meta.theme, themeOverrides: th.themeOverrides || video.meta.themeOverrides }, shots: [shot] }, {}, { width: 1920, height: 1080 });
+    const ttl = buildTimeline({ meta: { ...video.meta, theme: th.theme || cth.theme || video.meta.theme, themeOverrides: th.themeOverrides || video.meta.themeOverrides }, shots: [shot] }, {}, portrait ? { width: 1080, height: 1920 } : { width: 1920, height: 1080 });
     const name = i === 0 ? 'thumbnail' : `thumbnail_${String.fromCharCode(97 + i)}`;
     const png = path.join(outDir, name + '.png');
     await renderFramePng(ttl, th.time ?? 5, png);
-    await runFF(['-i', png, '-vf', 'scale=1280:720:flags=lanczos', '-q:v', '2', path.join(outDir, name + '.jpg')]);
+    await runFF(['-i', png, '-vf', portrait ? 'scale=1080:1920:flags=lanczos' : 'scale=1280:720:flags=lanczos', '-q:v', '2', path.join(outDir, name + '.jpg')]);
     fs.rmSync(png, { force: true });
     files.push(path.join(outDir, name + '.jpg'));
   }
@@ -227,6 +229,7 @@ async function stills() {
 }
 
 try {
+  if (['stills', 'produce', 'thumbnail'].includes(cmd)) { const { ensureAssets } = await import('./assets.js'); await ensureAssets({ log }); }
   if (cmd === 'catalog') await catalog();
   else if (cmd === 'validate') { const { video } = loadVideo(); const v = await validate(video); process.exitCode = v.errors.length ? 1 : 0; }
   else if (cmd === 'stills') await stills();

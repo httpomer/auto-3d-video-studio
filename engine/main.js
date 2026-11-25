@@ -55,6 +55,9 @@ window.__init = async (project) => {
   document.body.appendChild(out);
   const missing = [...new Set(P.shots.map((s) => s.scene))].filter((n) => !templates[n]);
   if (missing.length) throw new Error('Unknown scene templates: ' + missing.join(', '));
+  // templates with external assets (e.g. 3D characters) load them before the first frame
+  const used = [...new Set(P.shots.map((s) => s.scene))];
+  await Promise.all(used.map((n) => templates[n].preload?.(P.shots.filter((s) => s.scene === n).map((s) => s.params || {}))));
   const gl = stage.renderer.getContext();
   const dbg = gl.getExtension('WEBGL_debug_renderer_info');
   return { gpu: dbg ? gl.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : 'unknown', shots: P.shots.length };

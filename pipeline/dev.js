@@ -1,6 +1,6 @@
 // Scene development tool: render PNG stills of a single scene template.
 //   node pipeline/dev.js <scene> [--params=file.json|inline-json] [--cam=from:to] [--times=1,4,7]
-//                        [--dur=8] [--theme=tech] [--overlays=file.json] [--out=dir] [--scale=0.5]
+//                        [--dur=8] [--theme=tech] [--overlays=file.json] [--out=dir] [--scale=0.5] [--portrait]
 // With no --params the template's own `sample` params are used.
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,11 +16,14 @@ if (!scene) { console.error('usage: node pipeline/dev.js <scene> [--params=...] 
 
 const readJson = (v) => (v == null ? undefined : fs.existsSync(v) ? JSON.parse(fs.readFileSync(v, 'utf8')) : JSON.parse(v));
 const scale = parseFloat(opt.scale ?? '1');
-const width = Math.round(1920 * scale), height = Math.round(1080 * scale);
+const [W0, H0] = opt.portrait ? [1080, 1920] : [1920, 1080];
+const width = Math.round(W0 * scale), height = Math.round(H0 * scale);
 const dur = parseFloat(opt.dur ?? '8');
 const times = String(opt.times ?? `${dur * 0.15},${dur * 0.5},${dur * 0.9}`).split(',').map(Number);
 const outDir = ensureDir(path.resolve(opt.out ?? path.join(CACHE, 'dev')));
 
+const { ensureAssets } = await import('./assets.js');
+await ensureAssets();
 const srv = await startServer();
 const eng = await openEngine(srv.port, { width, height, id: 'dev' + process.pid });
 try {
@@ -28,7 +31,7 @@ try {
   const tpl = catalog.find((c) => c.name === scene);
   if (!tpl) throw new Error(`Unknown scene "${scene}". Available: ${catalog.map((c) => c.name).join(', ')}`);
   let camera;
-  if (opt.cam) { const [from, to] = String(opt.cam).split(':'); camera = { from, to: to || from }; if (opt.orbit) camera.orbit = parseFloat(opt.orbit); }
+  if (opt.cam) { const [from, to] = String(opt.cam).split(':'); camera = { from, to: to || from }; if (opt.orbit) camera.orbit = parseFloat(opt.orbit); if (opt.fit) camera.fit = parseFloat(opt.fit); }
   const shot = { id: 'dev', scene, params: readJson(opt.params) ?? tpl.sample, camera, overlays: readJson(opt.overlays) ?? [], duration: dur };
   const tl = buildTimeline({ meta: { theme: opt.theme ?? 'tech' }, shots: [shot] }, {}, { width, height });
   tl.noFade = true;

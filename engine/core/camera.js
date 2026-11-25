@@ -27,7 +27,7 @@ export function shotCameraSpec(tpl, params, cam) {
   if (typeof spec === 'string') spec = { from: spec, to: spec };
   const from = getFraming(framings, spec.from, first);
   const to = getFraming(framings, spec.to ?? spec.from, from);
-  return { from, to, orbit: spec.orbit ?? (from === to ? 10 : 0), push: spec.push ?? (from === to ? 0.07 : 0), rise: spec.rise ?? 0, ease: spec.ease ?? 'drift', drift: spec.drift ?? 1 };
+  return { from, to, orbit: spec.orbit ?? (from === to ? 10 : 0), push: spec.push ?? (from === to ? 0.07 : 0), rise: spec.rise ?? 0, ease: spec.ease ?? 'drift', drift: spec.drift ?? 1, fit: spec.fit ?? 1 };
 }
 
 export function applyCamera(camera, spec, t, dur, seed = 0, aspect = 16 / 9) {
@@ -46,12 +46,20 @@ export function applyCamera(camera, spec, t, dur, seed = 0, aspect = 16 / 9) {
   theta += noise1(t * 0.13, seed + 1) * 0.012 * d;
   phi += noise1(t * 0.11, seed + 2) * 0.008 * d;
   r *= 1 + noise1(t * 0.09, seed + 3) * 0.006 * d;
+  // Portrait (Shorts): framings are composed for 16:9. Make the frame's WIDTH cover roughly what the
+  // landscape frame's height covered (`fit` scales that), split between dolly-out and a wider lens.
+  let fovK = 1;
+  if (aspect < 1) {
+    const m = Math.max(1, (spec.fit ?? 1) / aspect);
+    r *= Math.pow(m, 0.65); fovK = Math.pow(m, 0.35);
+  }
   phi = clamp(phi, 0.05, Math.PI - 0.05);
   sph.set(r, phi, theta); v.setFromSpherical(sph);
   camera.position.set(tx + v.x, ty + v.y, tz + v.z);
   camera.up.set(0, 1, 0);
   camera.lookAt(tx, ty, tz);
-  camera.fov = lerp(A.fov ?? 35, B.fov ?? 35, p);
+  const fov0 = lerp(A.fov ?? 35, B.fov ?? 35, p);
+  camera.fov = fovK === 1 ? fov0 : (2 * Math.atan(Math.tan((fov0 * Math.PI) / 360) * fovK) * 180) / Math.PI;
   camera.aspect = aspect;
   camera.near = 0.05; camera.far = 800;
   camera.updateProjectionMatrix();

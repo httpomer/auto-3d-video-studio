@@ -187,6 +187,39 @@ CPU vs GPU explainer. Two platforms get the same job (a wall of 1,296 task tiles
 {"leftLabel":"CPU","rightLabel":"GPU","leftCores":8,"rightGrid":32,"mode":"both"}
 ```
 
+## `crowd`
+
+A crowd of realistic people (3D characters: men and women in everyday clothes) on the studio floor, and the moment some of them turn to dust (embers peel off from the head down and drift away). "half" mode makes exactly half of everyone vanish (population, "half of all people"); "enumerate" mode lays out groups that show every possible outcome once — 4 pairs → one pair loses both (1 in 4), 16 families of four → one family keeps everyone (1 in 16). Use for population, probability, survivors, "one in N" stories.
+
+| param | meaning |
+|---|---|
+| `figure` | "human" (realistic characters, default) \| "token" (simple capsule figures) |
+| `people` | Which characters to mix (default all): michelle, casual, soldier |
+| `figureScale` | Height multiplier for the figures (default 1 ≈ one grid cell = 0.6 m apart for 1.75 m people) |
+| `size` | Figures per group (default 120 — one big crowd) |
+| `groups` | Number of groups (default 1). In "enumerate" mode use 2^size groups. |
+| `cols` | Groups per row (default ≈ square) |
+| `perRow` | Figures per row inside a group (default: a row for ≤ 6, else ≈ square) |
+| `mode` | "half" (exactly `share` of all figures vanish, default) \| "enumerate" (group i loses figure k when bit k of i is set) |
+| `share` | half mode: share that vanishes (default 0.5) |
+| `seed` | half mode: which figures (deterministic) |
+| `vanish` | 0..1 dust progress (tweens between continued shots; set vanishFrom: 0, vanish: 1 to watch it happen) |
+| `vanishDur` | Seconds the vanish tween takes (default 3) |
+| `highlight` | Group index to light up with a ring and glow (-1 none); tweens |
+| `highlightLabel` | Label floating over the highlighted group |
+| `highlightSlot` | Grid slot (0-based, row by row from the back) to place the highlighted group in, e.g. to bring it mid-frame |
+| `groupLabels` | [strings] small labels over each group |
+| `labelSide` | "top" (default, over each group) \| "right" (beside each group — best for a single column of groups) |
+| `wave` | true → a shock-wave ring sweeps the floor when the vanish starts (the snap) |
+| `cues` | { snap: seconds when the vanish starts (default 0.5) } — shot-local |
+
+**Framings:** `wide`, `hero`, `low`, `top`, `side`, `close`, `focus`
+
+**Sample params:**
+```json
+{"size":120,"vanishFrom":0,"vanish":1,"wave":true}
+```
+
 ## `data_flow`
 
 A left-to-right pipeline of 2–6 labelled stages (e.g. Data → Training → Model → Inference → Apps). Each stage is a small 3D object on a lit pedestal; glass tubes between them carry streams of glowing particles. Stages can reveal one by one and one stage can be emphasised.

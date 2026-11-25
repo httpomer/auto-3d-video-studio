@@ -3,12 +3,14 @@
 import * as THREE from 'three';
 import { clamp, ease, lerp, fmtNum } from './util.js';
 
-const REF_W = 1920;
+const REF_W = 1920, REF_W_PORTRAIT = 1080;
 const v3 = new THREE.Vector3();
 
 export class Hud {
   constructor({ width, height, theme }) {
-    this.w = width; this.h = height; this.s = width / REF_W; this.theme = theme;
+    this.w = width; this.h = height; this.portrait = height > width;
+    // logical width: 1920 for landscape, 1080 for portrait (Shorts) so type stays big on a phone
+    this.W = this.portrait ? REF_W_PORTRAIT : REF_W; this.s = width / this.W; this.theme = theme;
     this.canvas = document.createElement('canvas');
     this.canvas.width = width; this.canvas.height = height;
     this.g = this.canvas.getContext('2d');
@@ -23,7 +25,7 @@ export class Hud {
 
   project(pos, camera) {
     v3.copy(pos).project(camera);
-    return { x: (v3.x * 0.5 + 0.5) * REF_W, y: (1 - (v3.y * 0.5 + 0.5)) * (this.h / this.s), vis: v3.z > -1 && v3.z < 1 };
+    return { x: (v3.x * 0.5 + 0.5) * this.W, y: (1 - (v3.y * 0.5 + 0.5)) * (this.h / this.s), vis: v3.z > -1 && v3.z < 1 };
   }
 
   wrap(text, maxW) {
@@ -66,7 +68,7 @@ export class Hud {
     const p = this.project(L.pos, camera);
     if (!p.vis) return;
     const H = this.h / this.s;
-    if (p.x < -200 || p.x > REF_W + 200 || p.y < -100 || p.y > H + 100) return;
+    if (p.x < -200 || p.x > this.W + 200 || p.y < -100 || p.y > H + 100) return;
     g.save();
     g.globalAlpha = alpha;
     const size = L.size ?? 30;
@@ -97,11 +99,12 @@ export class Hud {
   scrim(side, alpha) {
     const g = this.g, H = this.h / this.s;
     let gr;
-    if (side === 'left') { gr = g.createLinearGradient(0, 0, REF_W * 0.62, 0); gr.addColorStop(0, `rgba(2,4,8,${0.78 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
-    else if (side === 'right') { gr = g.createLinearGradient(REF_W, 0, REF_W * 0.38, 0); gr.addColorStop(0, `rgba(2,4,8,${0.78 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
+    if (side === 'left') { gr = g.createLinearGradient(0, 0, this.W * 0.62, 0); gr.addColorStop(0, `rgba(2,4,8,${0.78 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
+    else if (side === 'right') { gr = g.createLinearGradient(this.W, 0, this.W * 0.38, 0); gr.addColorStop(0, `rgba(2,4,8,${0.78 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
+    else if (side === 'top') { gr = g.createLinearGradient(0, 0, 0, H * 0.5); gr.addColorStop(0, `rgba(2,4,8,${0.72 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
     else if (side === 'bottom') { gr = g.createLinearGradient(0, H, 0, H * 0.5); gr.addColorStop(0, `rgba(2,4,8,${0.8 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
-    else { gr = g.createRadialGradient(REF_W / 2, H / 2, 0, REF_W / 2, H / 2, REF_W * 0.6); gr.addColorStop(0, `rgba(2,4,8,${0.62 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
-    g.fillStyle = gr; g.fillRect(0, 0, REF_W, H);
+    else { gr = g.createRadialGradient(this.W / 2, H / 2, 0, this.W / 2, H / 2, this.W * 0.6); gr.addColorStop(0, `rgba(2,4,8,${0.62 * alpha})`); gr.addColorStop(1, 'rgba(2,4,8,0)'); }
+    g.fillStyle = gr; g.fillRect(0, 0, this.W, H);
   }
   /** Lines that rise into place one after another. */
   riseLines(lines, x, y, lh, t, { stagger = 0.09, dist = 34, alpha = 1 } = {}) {
@@ -117,17 +120,17 @@ export class Hud {
   /* ---------------- overlay components ---------------- */
   o_title(o, { t, alpha }) {
     const g = this.g, th = this.theme, H = this.h / this.s;
-    const center = (o.align ?? 'left') === 'center';
-    const size = o.size ?? (center ? 108 : 92);
+    const center = (o.align ?? (this.portrait ? 'center' : 'left')) === 'center';
+    const size = o.size ?? (this.portrait ? 96 : center ? 108 : 92);
     this.scrim(center ? 'center' : 'left', alpha * (o.scrim ?? 1));
     g.globalAlpha = alpha;
     g.textAlign = center ? 'center' : 'left'; g.textBaseline = 'alphabetic';
-    const x = center ? REF_W / 2 : 120;
+    const x = center ? this.W / 2 : 120;
     g.font = this.font(700, size);
-    const lines = this.wrap(o.text, center ? REF_W * 0.8 : REF_W * 0.52);
+    const lines = this.wrap(o.text, this.portrait ? this.W * 0.86 : center ? this.W * 0.8 : this.W * 0.52);
     const lh = size * 1.08;
     const blockH = lines.length * lh + (o.sub ? 70 : 0) + (o.kicker ? 54 : 0);
-    let y = (o.y ?? 0.5) * H - blockH / 2 + size * 0.8;
+    let y = (o.y ?? (this.portrait ? 0.3 : 0.5)) * H - blockH / 2 + size * 0.8;
     if (o.kicker) {
       g.font = this.font(600, 28); g.fillStyle = th.accent; g.letterSpacing = '6px';
       const k = ease.outCubic(clamp(t / 0.6));
@@ -146,7 +149,7 @@ export class Hud {
     g.fillRect(center ? x - bw / 2 : x, ly, bw, 6);
     if (o.sub) {
       g.font = this.font(400, 36, 'body'); g.fillStyle = th.textDim;
-      const sl = this.wrap(o.sub, center ? REF_W * 0.7 : REF_W * 0.5);
+      const sl = this.wrap(o.sub, this.portrait ? this.W * 0.84 : center ? this.W * 0.7 : this.W * 0.5);
       this.riseLines(sl, x, ly + 66, 48, t - 0.5, { alpha, dist: 20 });
     }
   }
@@ -155,25 +158,25 @@ export class Hud {
     const g = this.g, th = this.theme, H = this.h / this.s;
     this.scrim('center', alpha);
     g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-    const cy = H * (o.y ?? 0.5);
+    const cy = H * (o.y ?? (this.portrait ? 0.3 : 0.5));
     const k = ease.outCubic(clamp(t / 0.6));
     g.globalAlpha = alpha * k;
     g.font = this.font(600, 30); g.fillStyle = th.accent; g.letterSpacing = '10px';
-    g.fillText((o.kicker ?? (o.index != null ? `PART ${String(o.index).padStart(2, '0')}` : '')).toUpperCase(), REF_W / 2 + 5, cy - 86);
+    g.fillText((o.kicker ?? (o.index != null ? `PART ${String(o.index).padStart(2, '0')}` : '')).toUpperCase(), this.W / 2 + 5, cy - 86);
     g.letterSpacing = '0px';
     const lw = 520 * ease.outQuart(clamp((t - 0.15) / 0.9));
     g.globalAlpha = alpha; g.fillStyle = this.rgba(th.accent, 0.9);
-    g.fillRect(REF_W / 2 - lw / 2, cy - 56, lw, 2);
+    g.fillRect(this.W / 2 - lw / 2, cy - 56, lw, 2);
     g.font = this.font(700, o.size ?? 104); g.fillStyle = th.text;
     g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 30;
-    const lines = this.wrap(o.title ?? o.text, REF_W * 0.8);
-    this.riseLines(lines, REF_W / 2, cy + 52, 112, t - 0.2, { alpha });
+    const lines = this.wrap(o.title ?? o.text, this.W * 0.8);
+    this.riseLines(lines, this.W / 2, cy + 52, 112, t - 0.2, { alpha });
   }
 
   o_lower(o, { t, alpha }) {
     const g = this.g, th = this.theme, H = this.h / this.s;
     const k = ease.outQuart(clamp(t / 0.7));
-    const x = 110, y = H - (o.sub ? 360 : 330); // clear of two-line captions (top of caption box ≈ H - 216)
+    const x = this.portrait ? 70 : 110, y = this.portrait ? H * 0.14 : H - (o.sub ? 360 : 330); // clear of two-line captions (top of caption box ≈ H - 216)
     g.font = this.font(600, 46);
     const tw = g.measureText(o.text).width;
     g.font = this.font(400, 28, 'body');
@@ -193,15 +196,15 @@ export class Hud {
 
   o_stat(o, { t, alpha }) {
     const g = this.g, th = this.theme, H = this.h / this.s;
-    const pos = o.pos ?? 'left';
+    const pos = o.pos ?? (this.portrait ? 'center' : 'left');
     const center = pos === 'center';
     const right = pos.includes('right');
     const top = pos.includes('top');
-    const x = center ? REF_W / 2 : right ? REF_W - 130 : 130;
+    const x = center ? this.W / 2 : right ? this.W - (this.portrait ? 70 : 130) : (this.portrait ? 70 : 130);
     const size = o.size ?? (center ? 220 : 170);
-    let y = center ? H * 0.52 : top ? 300 : H * 0.5;
+    let y = this.portrait ? (top ? H * 0.2 : H * 0.27) : center ? H * 0.52 : top ? 300 : H * 0.5;
     if (o.y != null) y = o.y * H;
-    if (o.scrim !== false) this.scrim(center ? 'center' : right ? 'right' : 'left', alpha * 0.9);
+    if (o.scrim !== false) this.scrim(this.portrait ? 'top' : center ? 'center' : right ? 'right' : 'left', alpha * 0.9);
     g.textAlign = center ? 'center' : right ? 'right' : 'left'; g.textBaseline = 'alphabetic';
     g.globalAlpha = alpha;
     let str;
@@ -215,7 +218,7 @@ export class Hud {
       g.letterSpacing = '0px';
     }
     g.font = this.font(700, size);
-    let fs = size; const maxW = center ? REF_W * 0.86 : REF_W * 0.46;
+    let fs = size; const maxW = center || this.portrait ? this.W * 0.86 : this.W * 0.46;
     while (g.measureText(str).width > maxW && fs > 40) { fs -= 6; g.font = this.font(700, fs); }
     const k2 = ease.outQuart(clamp(t / 0.7));
     g.shadowColor = this.rgba(th.accent, 0.55); g.shadowBlur = 50;
@@ -224,7 +227,7 @@ export class Hud {
     g.shadowBlur = 0;
     if (o.sub) {
       g.font = this.font(400, 36, 'body'); g.fillStyle = th.textDim;
-      const lines = this.wrap(o.sub, center ? REF_W * 0.6 : REF_W * 0.36);
+      const lines = this.wrap(o.sub, this.portrait ? this.W * 0.8 : center ? this.W * 0.6 : this.W * 0.36);
       this.riseLines(lines, x, y + 64, 48, t - 0.45, { alpha, dist: 18 });
     }
   }
@@ -235,7 +238,7 @@ export class Hud {
     if (!world) return;
     const p = this.project(world, camera);
     if (!p.vis) return;
-    const dir = o.dir ?? (p.x > REF_W * 0.5 ? 'right' : 'left');
+    const dir = o.dir ?? (p.x > this.W * 0.5 ? 'right' : 'left');
     const sx = dir.includes('left') ? -1 : 1, sy = dir.includes('down') ? 1 : -1;
     const dx = (o.dx ?? 90) * sx, dy = (o.dy ?? 80) * sy, run = (o.run ?? 90) * sx;
     const k1 = ease.outCubic(clamp(t / 0.35)), k2 = ease.outCubic(clamp((t - 0.25) / 0.4)), k3 = ease.outCubic(clamp((t - 0.5) / 0.5));
@@ -270,11 +273,11 @@ export class Hud {
   o_bullets(o, { t, alpha }) {
     const g = this.g, th = this.theme, H = this.h / this.s;
     const right = o.pos === 'right';
-    this.scrim(right ? 'right' : 'left', alpha);
-    const x = right ? REF_W * 0.6 : 130;
+    this.scrim(this.portrait ? 'top' : right ? 'right' : 'left', alpha);
+    const x = this.portrait ? 80 : right ? this.W * 0.6 : 130;
     const items = o.items || [];
     const lh = o.lineHeight ?? 84;
-    let y = H * 0.5 - (items.length * lh + (o.title ? 90 : 0)) / 2 + 40;
+    let y = H * (this.portrait ? 0.3 : 0.5) - (items.length * lh + (o.title ? 90 : 0)) / 2 + 40;
     g.textAlign = 'left'; g.textBaseline = 'middle';
     g.globalAlpha = alpha;
     if (o.title) {
@@ -301,16 +304,16 @@ export class Hud {
     this.scrim('center', alpha);
     g.globalAlpha = alpha; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
     g.font = this.font(500, o.size ?? 64);
-    const lines = this.wrap('“' + o.text + '”', REF_W * 0.72);
+    const lines = this.wrap('“' + o.text + '”', this.W * (this.portrait ? 0.86 : 0.72));
     const lh = (o.size ?? 64) * 1.28;
-    let y = H * 0.5 - (lines.length * lh) / 2 + 40;
+    let y = H * (this.portrait ? 0.3 : 0.5) - (lines.length * lh) / 2 + 40;
     g.fillStyle = th.text; g.shadowColor = 'rgba(0,0,0,0.6)'; g.shadowBlur = 24;
-    this.riseLines(lines, REF_W / 2, y, lh, t, { alpha, stagger: 0.14 });
+    this.riseLines(lines, this.W / 2, y, lh, t, { alpha, stagger: 0.14 });
     g.shadowBlur = 0;
     if (o.by) {
       const k = ease.outCubic(clamp((t - 0.8) / 0.6)); g.globalAlpha = alpha * k;
       g.font = this.font(500, 32, 'body'); g.fillStyle = th.accent;
-      g.fillText('— ' + o.by, REF_W / 2, y + lines.length * lh + 16);
+      g.fillText('— ' + o.by, this.W / 2, y + lines.length * lh + 16);
     }
   }
 
@@ -321,7 +324,7 @@ export class Hud {
     const text = String(o.text).toUpperCase();
     const w = g.measureText(text).width + 56, h = 60;
     const k = ease.outQuart(clamp(t / 0.6));
-    const x = right ? REF_W - 110 - w : 110, y = 96;
+    const x = right ? this.W - (this.portrait ? 60 : 110) - w : (this.portrait ? 60 : 110), y = this.portrait ? 126 : 96;
     g.globalAlpha = alpha * k;
     g.fillStyle = 'rgba(5,9,15,0.7)'; this.rr(x, y, w, h, 30); g.fill();
     g.strokeStyle = this.rgba(th.accent, 0.7); g.lineWidth = 2; g.stroke();
@@ -336,7 +339,7 @@ export class Hud {
     g.font = this.font(400, 22, 'body'); g.fillStyle = th.textDim;
     g.textAlign = 'right'; g.textBaseline = 'alphabetic';
     g.shadowColor = 'rgba(0,0,0,0.8)'; g.shadowBlur = 8;
-    g.fillText(o.text, REF_W - 60, 62);
+    g.fillText(o.text, this.W - 60, this.portrait ? 150 : 62);
   }
 
   /**
@@ -349,26 +352,26 @@ export class Hud {
     const g = this.g, H = this.h / this.s;
     const HOT = o.hot || '#FF2D2D', INK = '#000000';
     const right = o.side === 'right';
-    const X = right ? REF_W - 80 : 80;
+    const X = right ? this.W - 80 : 80;
     const font = (w, px) => `${w} ${px}px "Inter", sans-serif`;
     const toScreen = (spec) => {
       if (!spec) return null;
-      if (Array.isArray(spec)) return { x: spec[0] * REF_W, y: spec[1] * H };
-      if (spec.point) return { x: spec.point[0] * REF_W, y: spec.point[1] * H };
+      if (Array.isArray(spec)) return { x: spec[0] * this.W, y: spec[1] * H };
+      if (spec.point) return { x: spec.point[0] * this.W, y: spec.point[1] * H };
       const w = spec.world ? new THREE.Vector3(...spec.world) : anchors?.[spec.anchor];
       if (!w || !camera) return null;
       const p = this.project(w, camera);
       return p.vis ? p : null;
     };
     // soft scrim behind the text only, so the subject keeps its full contrast
-    const gr = g.createLinearGradient(right ? REF_W : 0, 0, right ? REF_W * 0.45 : REF_W * 0.55, 0);
+    const gr = g.createLinearGradient(right ? this.W : 0, 0, right ? this.W * 0.45 : this.W * 0.55, 0);
     gr.addColorStop(0, 'rgba(0,0,0,0.55)'); gr.addColorStop(1, 'rgba(0,0,0,0)');
-    g.fillStyle = gr; g.fillRect(0, 0, REF_W, H);
+    g.fillStyle = gr; g.fillRect(0, 0, this.W, H);
 
     // headline — " / " forces a line break
     const segments = String(o.text).toUpperCase().split(/\s*(?:\n|\s\/\s)\s*/).map((t) => t.split(/\s+/).filter(Boolean)).filter((x) => x.length);
     const hl = new Set(String(o.highlight || '').toUpperCase().split(/\s+/).filter(Boolean));
-    const maxW = REF_W * (o.width ?? 0.52);
+    const maxW = this.W * (o.width ?? 0.52);
     let size = o.size ?? 250, lines;
     const setFont = () => { g.font = font(900, size); g.letterSpacing = `${-size * 0.03}px`; };
     const measure = (w) => { setFont(); return g.measureText(w).width; };
@@ -459,7 +462,7 @@ export class Hud {
       const fs = c.size ?? 54;
       g.font = font(900, fs); g.letterSpacing = '-1px';
       const tw = g.measureText(c.text).width, cw = tw + 56, ch = fs * 1.5;
-      const cx = c.chip[0] * REF_W, cy = c.chip[1] * H;
+      const cx = c.chip[0] * this.W, cy = c.chip[1] * H;
       g.save(); g.translate(cx + cw / 2, cy + ch / 2); g.rotate(c.tilt ?? -0.03);
       g.fillStyle = 'rgba(0,0,0,0.9)'; g.fillRect(-cw / 2 + 10, -ch / 2 + 12, cw, ch);
       g.fillStyle = c.bg || '#FFFFFF'; g.fillRect(-cw / 2, -ch / 2, cw, ch);
@@ -472,6 +475,7 @@ export class Hud {
   /* ---------------- captions ---------------- */
   drawCaption(cue, time) {
     if (!cue) return;
+    if (this.portrait) return this.drawCaptionShort(cue, time);
     const g = this.g, th = this.theme, H = this.h / this.s;
     const a = clamp((time - cue.start) / 0.1) * clamp((cue.end - time) / 0.1 + 1);
     if (a <= 0) return;
@@ -484,14 +488,48 @@ export class Hud {
     const bw = Math.max(...widths) + padX * 2, bh = lines.length * lh + 22;
     const by = H - 78 - bh;
     g.globalAlpha = a;
-    g.fillStyle = 'rgba(4,7,12,0.66)'; this.rr(REF_W / 2 - bw / 2, by, bw, bh, 14); g.fill();
+    g.fillStyle = 'rgba(4,7,12,0.66)'; this.rr(this.W / 2 - bw / 2, by, bw, bh, 14); g.fill();
     const sp = g.measureText(' ').width;
     lines.forEach((ws, li) => {
-      let x = REF_W / 2 - widths[li] / 2; const y = by + 11 + lh * li + lh / 2 + 1;
+      let x = this.W / 2 - widths[li] / 2; const y = by + 11 + lh * li + lh / 2 + 1;
       for (const w of ws) {
         g.fillStyle = time >= w.t - 0.04 ? th.text : 'rgba(244,247,251,0.55)';
         g.fillText(w.w, x, y);
         x += g.measureText(w.w).width + sp;
+      }
+    });
+    g.restore();
+  }
+
+  /** Shorts captions: big outlined words in the middle of the frame (clear of the Shorts UI), the spoken word lit. */
+  drawCaptionShort(cue, time) {
+    const g = this.g, th = this.theme, H = this.h / this.s;
+    const a = clamp((time - cue.start) / 0.08) * clamp((cue.end - time) / 0.1 + 1);
+    if (a <= 0) return;
+    g.save();
+    const size = 74, lh = size * 1.12;
+    g.font = `900 ${size}px "Inter", sans-serif`; g.letterSpacing = '-1px';
+    g.textBaseline = 'middle'; g.textAlign = 'left'; g.lineJoin = 'round';
+    const lines = cue.lines.map((ws) => ws.map((x) => ({ ...x, w: x.w.toUpperCase() })));
+    const sp = g.measureText(' ').width;
+    const widths = lines.map((ws) => g.measureText(ws.map((x) => x.w).join(' ')).width);
+    const y0 = H * 0.655 - ((lines.length - 1) * lh) / 2;
+    // pop-in of the whole cue
+    const pop = 0.92 + 0.08 * ease.outBack(clamp((time - cue.start) / 0.18));
+    g.translate(this.W / 2, y0); g.scale(pop, pop); g.translate(-this.W / 2, -y0);
+    g.globalAlpha = a;
+    const all = lines.flat();
+    const cur = all.reduce((k, x, i) => (time >= x.t - 0.04 ? i : k), -1);
+    let n = 0;
+    lines.forEach((ws, li) => {
+      let x = this.W / 2 - widths[li] / 2; const y = y0 + li * lh;
+      for (const w of ws) {
+        const ww = g.measureText(w.w).width;
+        g.fillStyle = 'rgba(0,0,0,0.8)'; g.fillText(w.w, x + 4, y + 5);
+        g.strokeStyle = '#000'; g.lineWidth = 12; g.strokeText(w.w, x, y);
+        g.fillStyle = n === cur ? (th.captionHot || '#FFD43B') : n < cur ? '#FFFFFF' : 'rgba(255,255,255,0.88)';
+        g.fillText(w.w, x, y);
+        x += ww + sp; n++;
       }
     });
     g.restore();

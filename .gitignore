@@ -10,3 +10,6 @@ projects/*/audio/
 projects/*/output/
 *.wav
 *.mp3
+
+# third-party 3D characters (downloaded on demand by pipeline/assets.js)
+engine/assets/humans/

@@ -134,7 +134,7 @@ export async function renderVideo(tl, outFile, buildDir, { workers = 3, jpegQual
 }
 
 /** Render one representative still per shot (for storyboard review) + contact sheets. */
-export async function renderStills(tl, outDir, { scale = 0.5, at = 0.6, log = console.log, cols = 4, perSheet = 16, only = null } = {}) {
+export async function renderStills(tl, outDir, { scale = 0.5, at = 0.6, log = console.log, cols = 4, perSheet = tl.width > tl.height ? 16 : 12, only = null } = {}) {
   ensureDir(outDir);
   if (only) return renderShotDetail(tl, outDir, only, { scale, log });
   for (const f of fs.readdirSync(outDir)) if (/^(sheet|shot)_/.test(f)) fs.rmSync(path.join(outDir, f), { force: true });
@@ -155,8 +155,9 @@ export async function renderStills(tl, outDir, { scale = 0.5, at = 0.6, log = co
     }
     for (let k = 0; k < thumbs.length; k += perSheet) {
       const part = thumbs.slice(k, k + perSheet);
-      const b64 = await eng.page.evaluate(async (items, cols2) => {
-        const tw = 480, th = 270, pad = 8, lab = 26;
+      const b64 = await eng.page.evaluate(async (list, cols2, ratio) => {
+        const items = Object.assign(list, { ratio });
+        const r = items.ratio, tw = r > 1 ? 480 : 300, th = Math.round(tw / r), pad = 8, lab = 26;
         const rows = Math.ceil(items.length / cols2);
         const c = document.createElement('canvas'); c.width = cols2 * (tw + pad) + pad; c.height = rows * (th + lab + pad) + pad;
         const g = c.getContext('2d'); g.fillStyle = '#111'; g.fillRect(0, 0, c.width, c.height);
@@ -167,7 +168,7 @@ export async function renderStills(tl, outDir, { scale = 0.5, at = 0.6, log = co
           g.fillStyle = '#ddd'; g.font = '15px Inter, sans-serif'; g.textBaseline = 'middle'; g.fillText(items[i].label, x + 2, y + th + lab / 2 + 1, tw - 4);
         }
         return c.toDataURL('image/jpeg', 0.88).split(',')[1];
-      }, part, cols);
+      }, part, tl.width > tl.height ? cols : 6, tl.width / tl.height);
       const file = path.join(outDir, `sheet_${String(k / perSheet + 1).padStart(2, '0')}.jpg`);
       fs.writeFileSync(file, Buffer.from(b64, 'base64'));
       files.push(file);
